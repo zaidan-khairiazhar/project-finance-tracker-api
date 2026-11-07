@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\WalletController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\TransactionController;
 
 Route::get('/', function () {
     return response()->json(['message' => 'Finance API is running.']);
@@ -32,3 +33,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('wallets', WalletController::class);
     Route::apiResource('categories', CategoryController::class)->except('show');
 });
+
+Route::apiResource('transactions', TransactionController::class);
