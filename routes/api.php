@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\WalletController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\TransferController;
 
 Route::get('/', function () {
     return response()->json(['message' => 'Finance API is running.']);
@@ -35,3 +36,6 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::apiResource('transactions', TransactionController::class);
+
+Route::post('transfers', [TransferController::class, 'store']);
+Route::delete('transfers/{groupId}', [TransferController::class, 'destroy'])->whereUuid('groupId');
