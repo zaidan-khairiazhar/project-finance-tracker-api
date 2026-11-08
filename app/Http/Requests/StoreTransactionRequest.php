@@ -9,13 +9,13 @@ class StoreTransactionRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        return $this->user() !== null;
     }
 
     public function rules(): array
     {
         $owned = fn (string $table) => Rule::exists($table, 'id')->where(
-            fn ($q) => $q->where('user_id', $this->user()->id)->whereNull('deleted_at')
+            fn ($q) => $q->where('user_id', $this->user()?->id)->whereNull('deleted_at')
         );
 
         return [

@@ -29,17 +29,12 @@ Route::prefix('auth')->group(function () {
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('wallets', WalletController::class);
-});
-
-Route::middleware('auth:sanctum')->group(function () {
-    Route::apiResource('wallets', WalletController::class);
     Route::apiResource('categories', CategoryController::class)->except('show');
+    Route::apiResource('transactions', TransactionController::class);
+
+    Route::post('transfers', [TransferController::class, 'store']);
+    Route::delete('transfers/{groupId}', [TransferController::class, 'destroy'])->whereUuid('groupId');
+
+    Route::get('dashboard/summary', [DashboardController::class, 'summary']);
+    Route::get('dashboard/by-category', [DashboardController::class, 'byCategory']);
 });
-
-Route::apiResource('transactions', TransactionController::class);
-
-Route::post('transfers', [TransferController::class, 'store']);
-Route::delete('transfers/{groupId}', [TransferController::class, 'destroy'])->whereUuid('groupId');
-
-Route::get('dashboard/summary', [DashboardController::class, 'summary']);
-Route::get('dashboard/by-category', [DashboardController::class, 'byCategory']);
