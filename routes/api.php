@@ -7,6 +7,7 @@ use App\Http\Controllers\WalletController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\TransferController;
+use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
     return response()->json(['message' => 'Finance API is running.']);
@@ -39,3 +40,6 @@ Route::apiResource('transactions', TransactionController::class);
 
 Route::post('transfers', [TransferController::class, 'store']);
 Route::delete('transfers/{groupId}', [TransferController::class, 'destroy'])->whereUuid('groupId');
+
+Route::get('dashboard/summary', [DashboardController::class, 'summary']);
+Route::get('dashboard/by-category', [DashboardController::class, 'byCategory']);

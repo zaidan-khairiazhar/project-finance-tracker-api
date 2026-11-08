@@ -14,8 +14,18 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
+/**
+ * @group Auth
+ *
+ * Registrasi, login, logout, dan profil user. Token Sanctum dikirim sebagai `Authorization: Bearer <token>`.
+ */
 class AuthController extends Controller
 {
+    /**
+     * Daftar akun baru
+     *
+     * @unauthenticated
+     */
     public function register(RegisterRequest $request, UserOnboarding $onboarding): JsonResponse
     {
         $user = DB::transaction(function () use ($request, $onboarding) {
@@ -28,6 +38,11 @@ class AuthController extends Controller
         return $this->tokenResponse($user, 201);
     }
 
+    /**
+     * Masuk dan dapatkan token
+     *
+     * @unauthenticated
+     */
     public function login(LoginRequest $request): JsonResponse
     {
         $user = User::where('email', $request->validated('email'))->first();
@@ -42,6 +57,9 @@ class AuthController extends Controller
         return $this->tokenResponse($user, 200);
     }
 
+    /**
+     * Keluar (mencabut token saat ini)
+     */
     public function logout(Request $request): Response
     {
         $request->user()->currentAccessToken()->delete();
@@ -49,6 +67,9 @@ class AuthController extends Controller
         return response()->noContent();
     }
 
+    /**
+     * Profil user yang sedang login
+     */
     public function me(Request $request): UserResource
     {
         return new UserResource($request->user());

@@ -1,0 +1,100 @@
+name: Dashboard
+description: |-
+
+  Ringkasan bulanan; batas bulan dihitung di zona Asia/Jakarta.
+endpoints:
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/v1/dashboard/summary
+    metadata:
+      custom: []
+      groupName: Dashboard
+      groupDescription: |-
+
+        Ringkasan bulanan; batas bulan dihitung di zona Asia/Jakarta.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Ringkasan pemasukan, pengeluaran, dan total saldo'
+      description: ''
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 500
+        content: |-
+          {
+              "message": "Server Error"
+          }
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: '*'
+        description: null
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/v1/dashboard/by-category
+    metadata:
+      custom: []
+      groupName: Dashboard
+      groupDescription: |-
+
+        Ringkasan bulanan; batas bulan dihitung di zona Asia/Jakarta.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Total per kategori'
+      description: ''
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 422
+        content: '{"message":"The type field is required.","errors":{"type":["The type field is required."]}}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: '*'
+        description: null
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null

@@ -11,8 +11,16 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
 
+/**
+ * @group Wallets
+ *
+ * Dompet. Saldo dihitung dari transaksi, tidak disimpan.
+ */
 class WalletController extends Controller
 {
+    /**
+     * Daftar dompet
+     */
     public function index(): AnonymousResourceCollection
     {
         return WalletResource::collection(
@@ -20,6 +28,9 @@ class WalletController extends Controller
         );
     }
 
+    /**
+     * Buat dompet
+     */
     public function store(StoreWalletRequest $request): JsonResponse
     {
         $wallet = Wallet::create($request->validated());
@@ -27,6 +38,9 @@ class WalletController extends Controller
         return $this->present($wallet)->response()->setStatusCode(201);
     }
 
+    /**
+     * Detail dompet
+     */
     public function show(Wallet $wallet): WalletResource
     {
         Gate::authorize('view', $wallet);
@@ -34,6 +48,9 @@ class WalletController extends Controller
         return $this->present($wallet);
     }
 
+    /**
+     * Ubah / arsipkan dompet
+     */
     public function update(UpdateWalletRequest $request, Wallet $wallet): WalletResource
     {
         Gate::authorize('update', $wallet);

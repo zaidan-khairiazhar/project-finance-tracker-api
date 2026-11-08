@@ -14,10 +14,18 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 
+/**
+ * @group Transactions
+ *
+ * Transaksi pemasukan dan pengeluaran. Waktu dikirim dengan offset, disimpan UTC, dikembalikan dengan akhiran Z.
+ */
 class TransactionController extends Controller
 {
     public function __construct(private TransactionService $service) {}
 
+    /**
+     * Daftar transaksi (paginasi cursor)
+     */
     public function index(Request $request): AnonymousResourceCollection
     {
         $filters = $request->validate([
@@ -39,6 +47,9 @@ class TransactionController extends Controller
         );
     }
 
+    /**
+     * Buat transaksi
+     */
     public function store(StoreTransactionRequest $request): JsonResponse
     {
         $transaction = $this->service->create($request->user(), $request->validated());
@@ -46,6 +57,9 @@ class TransactionController extends Controller
         return (new TransactionResource($transaction))->response()->setStatusCode(201);
     }
 
+    /**
+     * Detail transaksi
+     */
     public function show(Transaction $transaction): TransactionResource
     {
         Gate::authorize('view', $transaction);
@@ -53,6 +67,9 @@ class TransactionController extends Controller
         return new TransactionResource($transaction);
     }
 
+    /**
+     * Ubah transaksi
+     */
     public function update(UpdateTransactionRequest $request, Transaction $transaction): TransactionResource
     {
         Gate::authorize('update', $transaction);
@@ -60,6 +77,9 @@ class TransactionController extends Controller
         return new TransactionResource($this->service->update($transaction, $request->validated()));
     }
 
+    /**
+     * Hapus transaksi
+     */
     public function destroy(Transaction $transaction): Response
     {
         Gate::authorize('delete', $transaction);

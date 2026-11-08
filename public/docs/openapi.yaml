@@ -1,0 +1,758 @@
+openapi: 3.0.3
+info:
+  title: 'Finance Tracker API'
+  description: ''
+  version: 1.0.0
+servers:
+  -
+    url: 'http://localhost:8000'
+tags:
+  -
+    name: ''
+    description: ''
+  -
+    name: Auth
+    description: "\nRegistrasi, login, logout, dan profil user. Token Sanctum dikirim sebagai `Authorization: Bearer <token>`."
+  -
+    name: Categories
+    description: "\nKategori pemasukan dan pengeluaran, maksimal dua tingkat."
+  -
+    name: Dashboard
+    description: "\nRingkasan bulanan; batas bulan dihitung di zona Asia/Jakarta."
+  -
+    name: Transactions
+    description: "\nTransaksi pemasukan dan pengeluaran. Waktu dikirim dengan offset, disimpan UTC, dikembalikan dengan akhiran Z."
+  -
+    name: Transfers
+    description: "\nTransfer antar dompet. Satu transfer = dua baris transaksi dengan transfer_group_id yang sama."
+  -
+    name: Wallets
+    description: "\nDompet. Saldo dihitung dari transaksi, tidak disimpan."
+components:
+  securitySchemes:
+    default:
+      type: http
+      scheme: bearer
+      description: 'You can retrieve your token by visiting your dashboard and clicking <b>Generate API token</b>.'
+security:
+  -
+    default: []
+paths:
+  /api/v1/user:
+    get:
+      summary: ''
+      operationId: getApiV1User
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - ''
+  /api/v1/auth/register:
+    post:
+      summary: 'Daftar akun baru'
+      operationId: daftarAkunBaru
+      description: ''
+      parameters: []
+      responses: {}
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Must not be greater than 100 characters.'
+                  example: b
+                email:
+                  type: string
+                  description: 'Must be a valid email address. Must not be greater than 255 characters.'
+                  example: zbailey@example.net
+                password:
+                  type: string
+                  description: 'Must be at least 8 characters.'
+                  example: '-0pBNvYgxw'
+              required:
+                - name
+                - email
+                - password
+      security: []
+  /api/v1/auth/login:
+    post:
+      summary: 'Masuk dan dapatkan token'
+      operationId: masukDanDapatkanToken
+      description: ''
+      parameters: []
+      responses: {}
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: 'Must be a valid email address.'
+                  example: gbailey@example.net
+                password:
+                  type: string
+                  description: ''
+                  example: '|]|{+-'
+              required:
+                - email
+                - password
+      security: []
+  /api/v1/auth/logout:
+    post:
+      summary: 'Keluar (mencabut token saat ini)'
+      operationId: keluarmencabutTokenSaatIni
+      description: ''
+      parameters: []
+      responses: {}
+      tags:
+        - Auth
+  /api/v1/auth/me:
+    get:
+      summary: 'Profil user yang sedang login'
+      operationId: profilUserYangSedangLogin
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Auth
+  /api/v1/categories:
+    get:
+      summary: 'Daftar kategori'
+      operationId: daftarKategori
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Categories
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: string
+                  description: ''
+                  example: income
+                  enum:
+                    - income
+                    - expense
+    post:
+      summary: 'Buat kategori'
+      operationId: buatKategori
+      description: ''
+      parameters: []
+      responses: {}
+      tags:
+        - Categories
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Must not be greater than 100 characters.'
+                  example: b
+                type:
+                  type: string
+                  description: ''
+                  example: expense
+                  enum:
+                    - income
+                    - expense
+                icon:
+                  type: string
+                  description: 'Must not be greater than 50 characters.'
+                  example: 'n'
+                  nullable: true
+                color:
+                  type: string
+                  description: 'Must match the regex /^#[0-9A-Fa-f]{6}([0-9A-Fa-f]{2})?$/.'
+                  example: '#EeDb3B'
+                  nullable: true
+                parent_id:
+                  type: string
+                  description: ''
+                  example: null
+                  nullable: true
+              required:
+                - name
+                - type
+  '/api/v1/categories/{id}':
+    put:
+      summary: 'Ubah kategori'
+      operationId: ubahKategori
+      description: ''
+      parameters: []
+      responses: {}
+      tags:
+        - Categories
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Must not be greater than 100 characters.'
+                  example: b
+                icon:
+                  type: string
+                  description: 'Must not be greater than 50 characters.'
+                  example: 'n'
+                  nullable: true
+                color:
+                  type: string
+                  description: 'Must match the regex /^#[0-9A-Fa-f]{6}([0-9A-Fa-f]{2})?$/.'
+                  example: '#EeDb3B'
+                  nullable: true
+                parent_id:
+                  type: string
+                  description: 'Must not be one of <code></code>.'
+                  example: null
+                  nullable: true
+    delete:
+      summary: 'Hapus kategori'
+      operationId: hapusKategori
+      description: ''
+      parameters: []
+      responses: {}
+      tags:
+        - Categories
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the category.'
+        example: architecto
+        required: true
+        schema:
+          type: string
+  /api/v1/dashboard/summary:
+    get:
+      summary: 'Ringkasan pemasukan, pengeluaran, dan total saldo'
+      operationId: ringkasanPemasukanPengeluaranDanTotalSaldo
+      description: ''
+      parameters: []
+      responses:
+        500:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Server Error'
+                properties:
+                  message:
+                    type: string
+                    example: 'Server Error'
+      tags:
+        - Dashboard
+  /api/v1/dashboard/by-category:
+    get:
+      summary: 'Total per kategori'
+      operationId: totalPerKategori
+      description: ''
+      parameters: []
+      responses:
+        422:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'The type field is required.'
+                  errors:
+                    type:
+                      - 'The type field is required.'
+                properties:
+                  message:
+                    type: string
+                    example: 'The type field is required.'
+                  errors:
+                    type: object
+                    properties:
+                      type:
+                        type: array
+                        example:
+                          - 'The type field is required.'
+                        items:
+                          type: string
+      tags:
+        - Dashboard
+  /api/v1/transactions:
+    get:
+      summary: 'Daftar transaksi (paginasi cursor)'
+      operationId: daftarTransaksipaginasiCursor
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data: []
+                  links:
+                    first: null
+                    last: null
+                    prev: null
+                    next: null
+                  meta:
+                    path: 'http://localhost:8000/api/v1/transactions'
+                    per_page: 15
+                    next_cursor: null
+                    prev_cursor: null
+                properties:
+                  data:
+                    type: array
+                    example: []
+                  links:
+                    type: object
+                    properties:
+                      first:
+                        type: string
+                        example: null
+                        nullable: true
+                      last:
+                        type: string
+                        example: null
+                        nullable: true
+                      prev:
+                        type: string
+                        example: null
+                        nullable: true
+                      next:
+                        type: string
+                        example: null
+                        nullable: true
+                  meta:
+                    type: object
+                    properties:
+                      path:
+                        type: string
+                        example: 'http://localhost:8000/api/v1/transactions'
+                      per_page:
+                        type: integer
+                        example: 15
+                      next_cursor:
+                        type: string
+                        example: null
+                        nullable: true
+                      prev_cursor:
+                        type: string
+                        example: null
+                        nullable: true
+      tags:
+        - Transactions
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                wallet_id:
+                  type: string
+                  description: 'Must be a valid UUID.'
+                  example: 6ff8f7f6-1eb3-3525-be4a-3932c805afed
+                category_id:
+                  type: string
+                  description: 'Must be a valid UUID.'
+                  example: 6b72fe4a-5b40-307c-bc24-f79acf9a1bb9
+                type:
+                  type: string
+                  description: ''
+                  example: null
+                from:
+                  type: string
+                  description: 'Must be a valid date.'
+                  example: '2026-11-08T05:23:26'
+                to:
+                  type: string
+                  description: 'Must be a valid date.'
+                  example: '2026-11-08T05:23:26'
+                q:
+                  type: string
+                  description: 'Must not be greater than 100 characters.'
+                  example: m
+                per_page:
+                  type: integer
+                  description: 'Must be at least 1. Must not be greater than 100.'
+                  example: 15
+    post:
+      summary: 'Buat transaksi'
+      operationId: buatTransaksi
+      description: ''
+      parameters: []
+      responses: {}
+      tags:
+        - Transactions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                wallet_id:
+                  type: string
+                  description: 'Must be a valid UUID.'
+                  example: 6ff8f7f6-1eb3-3525-be4a-3932c805afed
+                category_id:
+                  type: string
+                  description: 'Must be a valid UUID.'
+                  example: 6b72fe4a-5b40-307c-bc24-f79acf9a1bb9
+                  nullable: true
+                type:
+                  type: string
+                  description: ''
+                  example: expense
+                  enum:
+                    - income
+                    - expense
+                amount:
+                  type: integer
+                  description: 'Must be at least 1. Must not be greater than 9007199254740991.'
+                  example: 17
+                occurred_at:
+                  type: string
+                  description: 'Must be a valid date.'
+                  example: '2026-11-08T05:23:26'
+                  nullable: true
+                note:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: i
+                  nullable: true
+              required:
+                - wallet_id
+                - type
+                - amount
+  '/api/v1/transactions/{id}':
+    get:
+      summary: 'Detail transaksi'
+      operationId: detailTransaksi
+      description: ''
+      parameters: []
+      responses:
+        404:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'No query results for model [App\Models\Transaction] architecto'
+                properties:
+                  message:
+                    type: string
+                    example: 'No query results for model [App\Models\Transaction] architecto'
+      tags:
+        - Transactions
+    put:
+      summary: 'Ubah transaksi'
+      operationId: ubahTransaksi
+      description: ''
+      parameters: []
+      responses: {}
+      tags:
+        - Transactions
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                wallet_id:
+                  type: string
+                  description: 'Must be a valid UUID.'
+                  example: 6ff8f7f6-1eb3-3525-be4a-3932c805afed
+                category_id:
+                  type: string
+                  description: 'Must be a valid UUID.'
+                  example: 6b72fe4a-5b40-307c-bc24-f79acf9a1bb9
+                  nullable: true
+                type:
+                  type: string
+                  description: ''
+                  example: expense
+                  enum:
+                    - income
+                    - expense
+                amount:
+                  type: integer
+                  description: 'Must be at least 1. Must not be greater than 9007199254740991.'
+                  example: 17
+                occurred_at:
+                  type: string
+                  description: 'Must be a valid date.'
+                  example: '2026-11-08T05:23:26'
+                note:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: i
+                  nullable: true
+    delete:
+      summary: 'Hapus transaksi'
+      operationId: hapusTransaksi
+      description: ''
+      parameters: []
+      responses: {}
+      tags:
+        - Transactions
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the transaction.'
+        example: architecto
+        required: true
+        schema:
+          type: string
+  /api/v1/transfers:
+    post:
+      summary: 'Buat transfer'
+      operationId: buatTransfer
+      description: ''
+      parameters: []
+      responses: {}
+      tags:
+        - Transfers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                from_wallet_id:
+                  type: string
+                  description: 'Must be a valid UUID.'
+                  example: 6ff8f7f6-1eb3-3525-be4a-3932c805afed
+                to_wallet_id:
+                  type: string
+                  description: 'The value and <code>from_wallet_id</code> must be different. Must be a valid UUID.'
+                  example: 6b72fe4a-5b40-307c-bc24-f79acf9a1bb9
+                amount:
+                  type: integer
+                  description: 'Must be at least 1. Must not be greater than 9007199254740991.'
+                  example: 17
+                occurred_at:
+                  type: string
+                  description: 'Must be a valid date.'
+                  example: '2026-11-08T05:23:26'
+                  nullable: true
+                note:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: i
+                  nullable: true
+              required:
+                - from_wallet_id
+                - to_wallet_id
+                - amount
+  '/api/v1/transfers/{groupId}':
+    delete:
+      summary: 'Hapus transfer (kedua sisi)'
+      operationId: hapusTransferkeduaSisi
+      description: ''
+      parameters: []
+      responses: {}
+      tags:
+        - Transfers
+    parameters:
+      -
+        in: path
+        name: groupId
+        description: ''
+        example: BcECdBDA-CdED-bFEA-CbCE-BcCdeBfbbebc
+        required: true
+        schema:
+          type: string
+  /api/v1/wallets:
+    get:
+      summary: 'Daftar dompet'
+      operationId: daftarDompet
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Wallets
+    post:
+      summary: 'Buat dompet'
+      operationId: buatDompet
+      description: ''
+      parameters: []
+      responses: {}
+      tags:
+        - Wallets
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Must not be greater than 100 characters.'
+                  example: b
+                type:
+                  type: string
+                  description: ''
+                  example: cash
+                  enum:
+                    - cash
+                    - bank
+                    - ewallet
+                initial_balance:
+                  type: integer
+                  description: 'Must be at least 0. Must not be greater than 9007199254740991.'
+                  example: 22
+              required:
+                - name
+                - type
+  '/api/v1/wallets/{id}':
+    get:
+      summary: 'Detail dompet'
+      operationId: detailDompet
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Wallets
+    put:
+      summary: 'Ubah / arsipkan dompet'
+      operationId: ubahArsipkanDompet
+      description: ''
+      parameters: []
+      responses: {}
+      tags:
+        - Wallets
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Must not be greater than 100 characters.'
+                  example: b
+                type:
+                  type: string
+                  description: ''
+                  example: ewallet
+                  enum:
+                    - cash
+                    - bank
+                    - ewallet
+                initial_balance:
+                  type: integer
+                  description: 'Must be at least 0. Must not be greater than 9007199254740991.'
+                  example: 22
+                is_archived:
+                  type: boolean
+                  description: ''
+                  example: true
+    delete:
+      summary: "Dompet yang sudah punya transaksi hanya diarsipkan (riwayat tetap utuh);\ndompet yang masih kosong benar-benar dihapus (soft delete)."
+      operationId: dompetYangSudahPunyaTransaksiHanyaDiarsipkanriwayatTetapUtuhDompetYangMasihKosongBenarBenarDihapussoftDelete
+      description: ''
+      parameters: []
+      responses: {}
+      tags:
+        - Wallets
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the wallet.'
+        example: architecto
+        required: true
+        schema:
+          type: string

@@ -12,10 +12,18 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
+/**
+ * @group Transfers
+ *
+ * Transfer antar dompet. Satu transfer = dua baris transaksi dengan transfer_group_id yang sama.
+ */
 class TransferController extends Controller
 {
     public function __construct(private TransferService $service) {}
 
+    /**
+     * Buat transfer
+     */
     public function store(StoreTransferRequest $request): JsonResponse
     {
         $data = $request->validated();
@@ -41,6 +49,9 @@ class TransferController extends Controller
         ]], 201);
     }
 
+    /**
+     * Hapus transfer (kedua sisi)
+     */
     public function destroy(Request $request, string $groupId): Response
     {
         $this->service->delete($request->user(), $groupId);

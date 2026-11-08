@@ -15,8 +15,16 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 
+/**
+ * @group Categories
+ *
+ * Kategori pemasukan dan pengeluaran, maksimal dua tingkat.
+ */
 class CategoryController extends Controller
 {
+    /**
+     * Daftar kategori
+     */
     public function index(Request $request): AnonymousResourceCollection
     {
         $filters = $request->validate(['type' => ['sometimes', Rule::enum(CategoryType::class)]]);
@@ -28,6 +36,9 @@ class CategoryController extends Controller
         );
     }
 
+    /**
+     * Buat kategori
+     */
     public function store(StoreCategoryRequest $request): JsonResponse
     {
         $category = Category::create($request->validated());
@@ -35,6 +46,9 @@ class CategoryController extends Controller
         return (new CategoryResource($category))->response()->setStatusCode(201);
     }
 
+    /**
+     * Ubah kategori
+     */
     public function update(UpdateCategoryRequest $request, Category $category): CategoryResource
     {
         Gate::authorize('update', $category);
@@ -44,6 +58,9 @@ class CategoryController extends Controller
         return new CategoryResource($category);
     }
 
+    /**
+     * Hapus kategori
+     */
     public function destroy(Category $category): Response
     {
         Gate::authorize('delete', $category);
