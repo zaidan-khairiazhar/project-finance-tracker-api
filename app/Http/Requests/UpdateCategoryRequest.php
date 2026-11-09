@@ -25,7 +25,7 @@ class UpdateCategoryRequest extends FormRequest
             'name' => ['sometimes', 'required', 'string', 'max:100'],
             'icon' => ['sometimes', 'nullable', 'string', 'max:50'],
             'color' => ['sometimes', 'nullable', 'regex:/^#[0-9A-Fa-f]{6}([0-9A-Fa-f]{2})?$/'],
-            'parent_id' => ['sometimes', 'nullable', Rule::notIn($category ? [$category->id] : []), Rule::exists('categories', 'id')->where(
+            'parent_id' => ['sometimes', 'nullable', 'uuid', Rule::notIn($category ? [$category->id] : []), Rule::exists('categories', 'id')->where(
                 fn ($q) => $q->where('user_id', $this->user()->id)
                     ->whereNull('parent_id')
                     ->whereNull('deleted_at')

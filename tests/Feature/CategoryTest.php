@@ -79,3 +79,14 @@ it("returns 404 for another user's category", function () {
     $this->patchJson("/api/v1/categories/{$cat->id}", ['name' => 'X'])->assertNotFound();
     $this->deleteJson("/api/v1/categories/{$cat->id}")->assertNotFound();
 });
+
+it('rejects a malformed parent_id with 422, not 500', function () {
+    $u = actingUser();
+    $own = Category::factory()->create(['user_id' => $u->id, 'type' => 'expense', 'parent_id' => null]);
+    $base = ['name' => 'Sub', 'type' => 'expense', 'icon' => 'x', 'color' => '#000000'];
+
+    $this->postJson('/api/v1/categories', $base + ['parent_id' => 'abc'])
+        ->assertUnprocessable()->assertJsonValidationErrors('parent_id');
+    $this->patchJson("/api/v1/categories/{$own->id}", ['parent_id' => 'abc'])
+        ->assertUnprocessable()->assertJsonValidationErrors('parent_id');
+});

@@ -16,7 +16,7 @@ class TransactionService
         WalletGuard::assertUsable(Wallet::findOrFail($data['wallet_id']), 'wallet_id');
         $this->assertCategoryMatches($data['category_id'] ?? null, $data['type']);
 
-        $transaction = new Transaction($data + ['occurred_at' => now()]);
+        $transaction = new Transaction(array_merge($data, ['occurred_at' => $data['occurred_at'] ?? now()]));
         $transaction->user_id = $user->id;
         $transaction->save();
 

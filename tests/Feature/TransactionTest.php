@@ -143,3 +143,14 @@ it('updates a transaction and re-checks the category against the type', function
 
     $this->deleteJson("/api/v1/transactions/{$t->id}")->assertNoContent();
 });
+
+it('defaults occurred_at to now when it is null or blank', function (mixed $value) {
+    $u = actingUser();
+    $w = Wallet::factory()->create(['user_id' => $u->id]);
+
+    $this->postJson('/api/v1/transactions', [
+        'wallet_id' => $w->id, 'type' => 'expense', 'amount' => 1000, 'occurred_at' => $value,
+    ])->assertCreated();
+
+    expect(Transaction::first()->occurred_at)->not->toBeNull();
+})->with([null, '']);

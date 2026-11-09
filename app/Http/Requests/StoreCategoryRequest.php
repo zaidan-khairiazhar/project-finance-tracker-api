@@ -21,7 +21,7 @@ class StoreCategoryRequest extends FormRequest
             'icon' => ['nullable', 'string', 'max:50'],
             'color' => ['nullable', 'regex:/^#[0-9A-Fa-f]{6}([0-9A-Fa-f]{2})?$/'],
             // Induk: kategori akar, milik user, belum dihapus, tipe sama.
-            'parent_id' => ['nullable', Rule::exists('categories', 'id')->where(
+            'parent_id' => ['nullable', 'uuid', Rule::exists('categories', 'id')->where(
                 fn ($q) => $q->where('user_id', $this->user()->id)
                     ->whereNull('parent_id')
                     ->whereNull('deleted_at')
