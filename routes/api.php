@@ -10,6 +10,7 @@ use App\Http\Controllers\TransferController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\BudgetController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\TransactionExportController;
 
 Route::get('/', function () {
     return response()->json(['message' => 'Finance API is running.']);
@@ -32,6 +33,7 @@ Route::prefix('auth')->group(function () {
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('wallets', WalletController::class);
     Route::apiResource('categories', CategoryController::class)->except('show');
+    Route::get('transactions/export', TransactionExportController::class);
     Route::apiResource('transactions', TransactionController::class);
 
     Route::post('transfers', [TransferController::class, 'store']);
@@ -46,4 +48,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('reports/monthly-trend', [ReportController::class, 'monthlyTrend']);
     Route::get('reports/category-comparison', [ReportController::class, 'categoryComparison']);
+    Route::get('reports/wallets', [ReportController::class, 'wallets']);
+
+    
 });

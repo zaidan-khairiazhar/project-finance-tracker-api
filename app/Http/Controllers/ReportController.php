@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Services\ReportService;
+use App\Support\MonthRange;
+use Carbon\CarbonImmutable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 
 /**
  * @group Reports
@@ -47,5 +50,36 @@ class ReportController extends Controller
         return response()->json(['data' => $this->service->categoryComparison(
             $request->user(), (int) ($v['months'] ?? 6), $v['type'] ?? 'expense'
         )]);
+    }
+
+    /**
+     * Laporan per dompet
+     *
+     * Pemasukan, pengeluaran, dan transfer per dompet pada rentang tanggal (Asia/Jakarta, inklusif),
+     * serta saldo akhir pada akhir hari `to`. Rentang maksimum 366 hari.
+     *
+     * @queryParam from string Tanggal awal `YYYY-MM-DD`. Default awal bulan berjalan. Example: 2026-11-01
+     * @queryParam to string Tanggal akhir `YYYY-MM-DD`. Default akhir bulan berjalan. Example: 2026-11-30
+     */
+    public function wallets(Request $request): JsonResponse
+    {
+        $request->validate([
+            'from' => ['sometimes', 'date_format:Y-m-d'],
+            'to' => ['sometimes', 'date_format:Y-m-d'],
+        ]);
+
+        $now = CarbonImmutable::now(MonthRange::TIMEZONE);
+        $from = (string) $request->query('from', $now->startOfMonth()->format('Y-m-d'));
+        $to = (string) $request->query('to', $now->endOfMonth()->format('Y-m-d'));
+
+        $days = CarbonImmutable::parse($from)->diffInDays(CarbonImmutable::parse($to), false);
+        if ($days < 0) {
+            throw ValidationException::withMessages(['to' => 'Tanggal akhir tidak boleh sebelum tanggal awal.']);
+        }
+        if ($days > 365) {
+            throw ValidationException::withMessages(['to' => 'Rentang maksimum 366 hari.']);
+        }
+
+        return response()->json(['data' => $this->service->wallets($request->user(), $from, $to)]);
     }
 }

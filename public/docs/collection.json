@@ -10,7 +10,7 @@
     ],
     "info": {
         "name": "Finance Tracker API",
-        "_postman_id": "7c83b28e-eb99-464c-bdc7-6e4c4d6134c0",
+        "_postman_id": "d35d332e-4b43-4812-814a-052c8619a192",
         "description": "",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
@@ -205,6 +205,125 @@
             ]
         },
         {
+            "name": "Budgets",
+            "description": "\nAnggaran bulanan tetap per kategori pengeluaran. Berlaku setiap bulan sampai diubah;\nanggaran kategori induk menjumlah subkategorinya.",
+            "item": [
+                {
+                    "name": "Daftar anggaran beserta pemakaiannya",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/budgets",
+                            "query": [
+                                {
+                                    "key": "month",
+                                    "value": "2026-11",
+                                    "description": "Bulan `YYYY-MM` (Asia\/Jakarta). Default bulan berjalan.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/v1\/budgets?month=2026-11"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Atur anggaran kategori (buat atau ubah)",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/budgets",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/budgets"
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"category_id\":\"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",\"amount\":7}"
+                        },
+                        "description": "Mengembalikan 201 jika anggaran baru, 200 jika memperbarui anggaran yang ada."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Hapus anggaran",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/budgets\/:budget_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/budgets\/:budget_id",
+                            "variable": [
+                                {
+                                    "id": "budget_id",
+                                    "key": "budget_id",
+                                    "value": "architecto",
+                                    "description": "The ID of the budget."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
             "name": "Categories",
             "description": "\nKategori pemasukan dan pengeluaran, maksimal dua tingkat.",
             "item": [
@@ -230,7 +349,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"type\":\"income\"}"
+                            "raw": "{\"type\":\"expense\"}"
                         },
                         "description": ""
                     },
@@ -278,7 +397,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"b\",\"type\":\"expense\",\"icon\":\"n\",\"color\":\"#EeDb3B\"}"
+                            "raw": "{\"name\":\"b\",\"type\":\"expense\",\"icon\":\"n\",\"color\":\"#EeDb3B\",\"parent_id\":\"c3b6b42e-3a0f-3935-b28d-cb767f8a2a0a\"}"
                         },
                         "description": ""
                     },
@@ -296,7 +415,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "architecto",
+                                    "value": "01a1b9c0-ca5c-70c9-89b2-8435453298e6",
                                     "description": "The ID of the category."
                                 }
                             ]
@@ -314,7 +433,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"b\",\"icon\":\"n\",\"color\":\"#EeDb3B\"}"
+                            "raw": "{\"name\":\"b\",\"icon\":\"n\",\"color\":\"#EeDb3B\",\"parent_id\":\"c3b6b42e-3a0f-3935-b28d-cb767f8a2a0a\"}"
                         },
                         "description": ""
                     },
@@ -332,7 +451,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "architecto",
+                                    "value": "01a1b9c0-ca5c-70c9-89b2-8435453298e6",
                                     "description": "The ID of the category."
                                 }
                             ]
@@ -398,8 +517,8 @@
                                     "value": "*"
                                 }
                             ],
-                            "code": 500,
-                            "body": "{\n    \"message\": \"Server Error\"\n}",
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
                             "name": ""
                         }
                     ]
@@ -443,8 +562,191 @@
                                     "value": "*"
                                 }
                             ],
-                            "code": 422,
-                            "body": "{\"message\":\"The type field is required.\",\"errors\":{\"type\":[\"The type field is required.\"]}}",
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Reports",
+            "description": "\nLaporan dihitung langsung dari transaksi. Bulan menurut Asia\/Jakarta; transfer tidak dihitung.",
+            "item": [
+                {
+                    "name": "Tren bulanan",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/reports\/monthly-trend",
+                            "query": [
+                                {
+                                    "key": "months",
+                                    "value": "6",
+                                    "description": "6 atau 12. Default 6.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/v1\/reports\/monthly-trend?months=6"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "[]"
+                        },
+                        "description": "Pemasukan, pengeluaran, dan selisih per bulan; tepat `months` item, berakhir di bulan berjalan."
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Rincian kategori lintas bulan",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/reports\/category-comparison",
+                            "query": [
+                                {
+                                    "key": "months",
+                                    "value": "6",
+                                    "description": "3 sampai 12. Default 6.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "type",
+                                    "value": "expense",
+                                    "description": "expense atau income. Default expense.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/v1\/reports\/category-comparison?months=6&type=expense"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"months\":4}"
+                        },
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Laporan per dompet",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/reports\/wallets",
+                            "query": [
+                                {
+                                    "key": "from",
+                                    "value": "2026-11-01",
+                                    "description": "Tanggal awal `YYYY-MM-DD`. Default awal bulan berjalan.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "to",
+                                    "value": "2026-11-30",
+                                    "description": "Tanggal akhir `YYYY-MM-DD`. Default akhir bulan berjalan.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/v1\/reports\/wallets?from=2026-11-01&to=2026-11-30"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"from\":\"2026-11-10\",\"to\":\"2026-11-10\"}"
+                        },
+                        "description": "Pemasukan, pengeluaran, dan transfer per dompet pada rentang tanggal (Asia\/Jakarta, inklusif),\nserta saldo akhir pada akhir hari `to`. Rentang maksimum 366 hari."
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
                             "name": ""
                         }
                     ]
@@ -455,6 +757,91 @@
             "name": "Transactions",
             "description": "\nTransaksi pemasukan dan pengeluaran. Waktu dikirim dengan offset, disimpan UTC, dikembalikan dengan akhiran Z.",
             "item": [
+                {
+                    "name": "Ekspor transaksi ke CSV",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/transactions\/export",
+                            "query": [
+                                {
+                                    "key": "wallet_id",
+                                    "value": "0198f0a0-0000-7000-8000-000000000000",
+                                    "description": "UUID dompet.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "category_id",
+                                    "value": "architecto",
+                                    "description": "UUID kategori.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "type",
+                                    "value": "architecto",
+                                    "description": "income, expense, transfer_out, atau transfer_in.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "from",
+                                    "value": "2026-11-01",
+                                    "description": "Tanggal awal `YYYY-MM-DD` (Asia\/Jakarta).",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "to",
+                                    "value": "2026-11-30",
+                                    "description": "Tanggal akhir `YYYY-MM-DD` (Asia\/Jakarta, inklusif).",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "q",
+                                    "value": "architecto",
+                                    "description": "Cari di catatan.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/v1\/transactions\/export?wallet_id=0198f0a0-0000-7000-8000-000000000000&category_id=architecto&type=architecto&from=2026-11-01&to=2026-11-30&q=architecto"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"wallet_id\":\"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",\"category_id\":\"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",\"from\":\"2026-11-10T03:37:19\",\"to\":\"2026-11-10T03:37:19\",\"q\":\"m\"}"
+                        },
+                        "description": "Filter sama seperti daftar transaksi, tanpa paginasi. Berkas UTF-8 dengan BOM, waktu dalam WIB,\nurut dari yang terbaru. Maksimum 50.000 baris (lebih dari itu 422: persempit filter)."
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
                 {
                     "name": "Daftar transaksi (paginasi cursor)",
                     "request": {
@@ -477,7 +864,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"wallet_id\":\"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",\"category_id\":\"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",\"from\":\"2026-11-08T05:23:26\",\"to\":\"2026-11-08T05:23:26\",\"q\":\"m\",\"per_page\":15}"
+                            "raw": "{\"wallet_id\":\"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",\"category_id\":\"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",\"from\":\"2026-11-10T03:37:19\",\"to\":\"2026-11-10T03:37:19\",\"q\":\"m\",\"per_page\":15}"
                         },
                         "description": ""
                     },
@@ -497,8 +884,8 @@
                                     "value": "*"
                                 }
                             ],
-                            "code": 200,
-                            "body": "{\"data\":[],\"links\":{\"first\":null,\"last\":null,\"prev\":null,\"next\":null},\"meta\":{\"path\":\"http:\\\/\\\/localhost:8000\\\/api\\\/v1\\\/transactions\",\"per_page\":15,\"next_cursor\":null,\"prev_cursor\":null}}",
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
                             "name": ""
                         }
                     ]
@@ -525,7 +912,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"wallet_id\":\"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",\"category_id\":\"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",\"type\":\"expense\",\"amount\":17,\"occurred_at\":\"2026-11-08T05:23:26\",\"note\":\"i\"}"
+                            "raw": "{\"wallet_id\":\"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",\"category_id\":\"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",\"type\":\"income\",\"amount\":17,\"occurred_at\":\"2026-11-10T03:37:19\",\"note\":\"i\"}"
                         },
                         "description": ""
                     },
@@ -543,7 +930,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "architecto",
+                                    "value": "01a1ba78-0ab1-705a-b898-3305d3b8d39f",
                                     "description": "The ID of the transaction."
                                 }
                             ]
@@ -578,8 +965,8 @@
                                     "value": "*"
                                 }
                             ],
-                            "code": 404,
-                            "body": "{\n    \"message\": \"No query results for model [App\\\\Models\\\\Transaction] architecto\"\n}",
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
                             "name": ""
                         }
                     ]
@@ -596,7 +983,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "architecto",
+                                    "value": "01a1ba78-0ab1-705a-b898-3305d3b8d39f",
                                     "description": "The ID of the transaction."
                                 }
                             ]
@@ -614,7 +1001,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"wallet_id\":\"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",\"category_id\":\"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",\"type\":\"expense\",\"amount\":17,\"occurred_at\":\"2026-11-08T05:23:26\",\"note\":\"i\"}"
+                            "raw": "{\"wallet_id\":\"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",\"category_id\":\"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",\"type\":\"income\",\"amount\":17,\"occurred_at\":\"2026-11-10T03:37:19\",\"note\":\"i\"}"
                         },
                         "description": ""
                     },
@@ -632,7 +1019,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "architecto",
+                                    "value": "01a1ba78-0ab1-705a-b898-3305d3b8d39f",
                                     "description": "The ID of the transaction."
                                 }
                             ]
@@ -681,7 +1068,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"from_wallet_id\":\"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",\"to_wallet_id\":\"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",\"amount\":17,\"occurred_at\":\"2026-11-08T05:23:26\",\"note\":\"i\"}"
+                            "raw": "{\"from_wallet_id\":\"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",\"to_wallet_id\":\"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",\"amount\":17,\"occurred_at\":\"2026-11-10T03:37:19\",\"note\":\"i\"}"
                         },
                         "description": ""
                     },
@@ -793,7 +1180,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"b\",\"type\":\"cash\",\"initial_balance\":22}"
+                            "raw": "{\"name\":\"b\",\"type\":\"ewallet\",\"initial_balance\":22}"
                         },
                         "description": ""
                     },
@@ -811,7 +1198,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "architecto",
+                                    "value": "01a1bbf5-4ade-7022-a9f2-30c7607c3765",
                                     "description": "The ID of the wallet."
                                 }
                             ]
@@ -864,7 +1251,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "architecto",
+                                    "value": "01a1bbf5-4ade-7022-a9f2-30c7607c3765",
                                     "description": "The ID of the wallet."
                                 }
                             ]
@@ -882,7 +1269,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"b\",\"type\":\"ewallet\",\"initial_balance\":22,\"is_archived\":true}"
+                            "raw": "{\"name\":\"b\",\"type\":\"cash\",\"initial_balance\":22,\"is_archived\":true}"
                         },
                         "description": ""
                     },
@@ -900,7 +1287,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "architecto",
+                                    "value": "01a1bbf5-4ade-7022-a9f2-30c7607c3765",
                                     "description": "The ID of the wallet."
                                 }
                             ]

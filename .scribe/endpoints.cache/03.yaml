@@ -36,7 +36,7 @@ endpoints:
         name: type
         description: ''
         required: false
-        example: income
+        example: expense
         type: string
         enumValues:
           - income
@@ -45,7 +45,7 @@ endpoints:
         nullable: false
         deprecated: false
     cleanBodyParameters:
-      type: income
+      type: expense
     fileParameters: []
     responses:
       -
@@ -140,9 +140,9 @@ endpoints:
       parent_id:
         custom: []
         name: parent_id
-        description: ''
+        description: 'Must be a valid UUID.'
         required: false
-        example: null
+        example: c3b6b42e-3a0f-3935-b28d-cb767f8a2a0a
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -153,6 +153,7 @@ endpoints:
       type: expense
       icon: 'n'
       color: '#EeDb3B'
+      parent_id: c3b6b42e-3a0f-3935-b28d-cb767f8a2a0a
     fileParameters: []
     responses: []
     responseFields: []
@@ -191,14 +192,14 @@ endpoints:
         name: id
         description: 'The ID of the category.'
         required: true
-        example: architecto
+        example: 01a1b9c0-ca5c-70c9-89b2-8435453298e6
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      id: architecto
+      id: 01a1b9c0-ca5c-70c9-89b2-8435453298e6
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -238,9 +239,9 @@ endpoints:
       parent_id:
         custom: []
         name: parent_id
-        description: 'Must not be one of <code></code>.'
+        description: 'Must be a valid UUID. Must not be one of <code></code>.'
         required: false
-        example: null
+        example: c3b6b42e-3a0f-3935-b28d-cb767f8a2a0a
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -250,6 +251,7 @@ endpoints:
       name: b
       icon: 'n'
       color: '#EeDb3B'
+      parent_id: c3b6b42e-3a0f-3935-b28d-cb767f8a2a0a
     fileParameters: []
     responses: []
     responseFields: []
@@ -287,14 +289,14 @@ endpoints:
         name: id
         description: 'The ID of the category.'
         required: true
-        example: architecto
+        example: 01a1b9c0-ca5c-70c9-89b2-8435453298e6
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      id: architecto
+      id: 01a1b9c0-ca5c-70c9-89b2-8435453298e6
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []

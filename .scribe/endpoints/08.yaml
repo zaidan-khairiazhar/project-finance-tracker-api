@@ -1,0 +1,263 @@
+name: Reports
+description: |-
+
+  Laporan dihitung langsung dari transaksi. Bulan menurut Asia/Jakarta; transfer tidak dihitung.
+endpoints:
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/v1/reports/monthly-trend
+    metadata:
+      custom: []
+      groupName: Reports
+      groupDescription: |-
+
+        Laporan dihitung langsung dari transaksi. Bulan menurut Asia/Jakarta; transfer tidak dihitung.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Tren bulanan'
+      description: 'Pemasukan, pengeluaran, dan selisih per bulan; tepat `months` item, berakhir di bulan berjalan.'
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters:
+      months:
+        custom: []
+        name: months
+        description: '6 atau 12. Default 6.'
+        required: false
+        example: 6
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanQueryParameters:
+      months: 6
+    bodyParameters:
+      months:
+        custom: []
+        name: months
+        description: ''
+        required: false
+        example: null
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 401
+        content: '{"message":"Unauthenticated."}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: '*'
+        description: null
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/v1/reports/category-comparison
+    metadata:
+      custom: []
+      groupName: Reports
+      groupDescription: |-
+
+        Laporan dihitung langsung dari transaksi. Bulan menurut Asia/Jakarta; transfer tidak dihitung.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Rincian kategori lintas bulan'
+      description: ''
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters:
+      months:
+        custom: []
+        name: months
+        description: '3 sampai 12. Default 6.'
+        required: false
+        example: 6
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      type:
+        custom: []
+        name: type
+        description: 'expense atau income. Default expense.'
+        required: false
+        example: expense
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanQueryParameters:
+      months: 6
+      type: expense
+    bodyParameters:
+      months:
+        custom: []
+        name: months
+        description: 'Must be between 3 and 12.'
+        required: false
+        example: 4
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      type:
+        custom: []
+        name: type
+        description: ''
+        required: false
+        example: null
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      months: 4
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 401
+        content: '{"message":"Unauthenticated."}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: '*'
+        description: null
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/v1/reports/wallets
+    metadata:
+      custom: []
+      groupName: Reports
+      groupDescription: |-
+
+        Laporan dihitung langsung dari transaksi. Bulan menurut Asia/Jakarta; transfer tidak dihitung.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Laporan per dompet'
+      description: |-
+        Pemasukan, pengeluaran, dan transfer per dompet pada rentang tanggal (Asia/Jakarta, inklusif),
+        serta saldo akhir pada akhir hari `to`. Rentang maksimum 366 hari.
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters:
+      from:
+        custom: []
+        name: from
+        description: 'Tanggal awal `YYYY-MM-DD`. Default awal bulan berjalan.'
+        required: false
+        example: '2026-11-01'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      to:
+        custom: []
+        name: to
+        description: 'Tanggal akhir `YYYY-MM-DD`. Default akhir bulan berjalan.'
+        required: false
+        example: '2026-11-30'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanQueryParameters:
+      from: '2026-11-01'
+      to: '2026-11-30'
+    bodyParameters:
+      from:
+        custom: []
+        name: from
+        description: 'Must be a valid date in the format <code>Y-m-d</code>.'
+        required: false
+        example: '2026-11-10'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      to:
+        custom: []
+        name: to
+        description: 'Must be a valid date in the format <code>Y-m-d</code>.'
+        required: false
+        example: '2026-11-10'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      from: '2026-11-10'
+      to: '2026-11-10'
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 401
+        content: '{"message":"Unauthenticated."}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: '*'
+        description: null
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null

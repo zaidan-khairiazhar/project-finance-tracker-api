@@ -93,7 +93,7 @@ endpoints:
         name: type
         description: ''
         required: true
-        example: cash
+        example: ewallet
         type: string
         enumValues:
           - cash
@@ -115,7 +115,7 @@ endpoints:
         deprecated: false
     cleanBodyParameters:
       name: b
-      type: cash
+      type: ewallet
       initial_balance: 22
     fileParameters: []
     responses: []
@@ -154,14 +154,14 @@ endpoints:
         name: id
         description: 'The ID of the wallet.'
         required: true
-        example: architecto
+        example: 01a1bbf5-4ade-7022-a9f2-30c7607c3765
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      id: architecto
+      id: 01a1bbf5-4ade-7022-a9f2-30c7607c3765
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -213,14 +213,14 @@ endpoints:
         name: id
         description: 'The ID of the wallet.'
         required: true
-        example: architecto
+        example: 01a1bbf5-4ade-7022-a9f2-30c7607c3765
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      id: architecto
+      id: 01a1bbf5-4ade-7022-a9f2-30c7607c3765
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -240,7 +240,7 @@ endpoints:
         name: type
         description: ''
         required: false
-        example: ewallet
+        example: cash
         type: string
         enumValues:
           - cash
@@ -273,7 +273,7 @@ endpoints:
         deprecated: false
     cleanBodyParameters:
       name: b
-      type: ewallet
+      type: cash
       initial_balance: 22
       is_archived: true
     fileParameters: []
@@ -315,14 +315,14 @@ endpoints:
         name: id
         description: 'The ID of the wallet.'
         required: true
-        example: architecto
+        example: 01a1bbf5-4ade-7022-a9f2-30c7607c3765
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      id: architecto
+      id: 01a1bbf5-4ade-7022-a9f2-30c7607c3765
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []

@@ -9,6 +9,195 @@ endpoints:
     custom: []
     httpMethods:
       - GET
+    uri: api/v1/transactions/export
+    metadata:
+      custom: []
+      groupName: Transactions
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Ekspor transaksi ke CSV'
+      description: |-
+        Filter sama seperti daftar transaksi, tanpa paginasi. Berkas UTF-8 dengan BOM, waktu dalam WIB,
+        urut dari yang terbaru. Maksimum 50.000 baris (lebih dari itu 422: persempit filter).
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters:
+      wallet_id:
+        custom: []
+        name: wallet_id
+        description: 'UUID dompet.'
+        required: false
+        example: 0198f0a0-0000-7000-8000-000000000000
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      category_id:
+        custom: []
+        name: category_id
+        description: 'UUID kategori.'
+        required: false
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      type:
+        custom: []
+        name: type
+        description: 'income, expense, transfer_out, atau transfer_in.'
+        required: false
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      from:
+        custom: []
+        name: from
+        description: 'Tanggal awal `YYYY-MM-DD` (Asia/Jakarta).'
+        required: false
+        example: '2026-11-01'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      to:
+        custom: []
+        name: to
+        description: 'Tanggal akhir `YYYY-MM-DD` (Asia/Jakarta, inklusif).'
+        required: false
+        example: '2026-11-30'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      q:
+        custom: []
+        name: q
+        description: 'Cari di catatan.'
+        required: false
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanQueryParameters:
+      wallet_id: 0198f0a0-0000-7000-8000-000000000000
+      category_id: architecto
+      type: architecto
+      from: '2026-11-01'
+      to: '2026-11-30'
+      q: architecto
+    bodyParameters:
+      wallet_id:
+        custom: []
+        name: wallet_id
+        description: 'Must be a valid UUID.'
+        required: false
+        example: 6ff8f7f6-1eb3-3525-be4a-3932c805afed
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      category_id:
+        custom: []
+        name: category_id
+        description: 'Must be a valid UUID.'
+        required: false
+        example: 6b72fe4a-5b40-307c-bc24-f79acf9a1bb9
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      type:
+        custom: []
+        name: type
+        description: ''
+        required: false
+        example: null
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      from:
+        custom: []
+        name: from
+        description: 'Must be a valid date.'
+        required: false
+        example: '2026-11-10T03:37:19'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      to:
+        custom: []
+        name: to
+        description: 'Must be a valid date.'
+        required: false
+        example: '2026-11-10T03:37:19'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      q:
+        custom: []
+        name: q
+        description: 'Must not be greater than 100 characters.'
+        required: false
+        example: m
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      wallet_id: 6ff8f7f6-1eb3-3525-be4a-3932c805afed
+      category_id: 6b72fe4a-5b40-307c-bc24-f79acf9a1bb9
+      from: '2026-11-10T03:37:19'
+      to: '2026-11-10T03:37:19'
+      q: m
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 401
+        content: '{"message":"Unauthenticated."}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: '*'
+        description: null
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
     uri: api/v1/transactions
     metadata:
       custom: []
@@ -69,7 +258,7 @@ endpoints:
         name: from
         description: 'Must be a valid date.'
         required: false
-        example: '2026-11-08T05:23:26'
+        example: '2026-11-10T03:37:19'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -80,7 +269,7 @@ endpoints:
         name: to
         description: 'Must be a valid date.'
         required: false
-        example: '2026-11-08T05:23:26'
+        example: '2026-11-10T03:37:19'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -111,16 +300,16 @@ endpoints:
     cleanBodyParameters:
       wallet_id: 6ff8f7f6-1eb3-3525-be4a-3932c805afed
       category_id: 6b72fe4a-5b40-307c-bc24-f79acf9a1bb9
-      from: '2026-11-08T05:23:26'
-      to: '2026-11-08T05:23:26'
+      from: '2026-11-10T03:37:19'
+      to: '2026-11-10T03:37:19'
       q: m
       per_page: 15
     fileParameters: []
     responses:
       -
         custom: []
-        status: 200
-        content: '{"data":[],"links":{"first":null,"last":null,"prev":null,"next":null},"meta":{"path":"http:\/\/localhost:8000\/api\/v1\/transactions","per_page":15,"next_cursor":null,"prev_cursor":null}}'
+        status: 401
+        content: '{"message":"Unauthenticated."}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
@@ -187,7 +376,7 @@ endpoints:
         name: type
         description: ''
         required: true
-        example: expense
+        example: income
         type: string
         enumValues:
           - income
@@ -211,7 +400,7 @@ endpoints:
         name: occurred_at
         description: 'Must be a valid date.'
         required: false
-        example: '2026-11-08T05:23:26'
+        example: '2026-11-10T03:37:19'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -231,9 +420,9 @@ endpoints:
     cleanBodyParameters:
       wallet_id: 6ff8f7f6-1eb3-3525-be4a-3932c805afed
       category_id: 6b72fe4a-5b40-307c-bc24-f79acf9a1bb9
-      type: expense
+      type: income
       amount: 17
-      occurred_at: '2026-11-08T05:23:26'
+      occurred_at: '2026-11-10T03:37:19'
       note: i
     fileParameters: []
     responses: []
@@ -272,14 +461,14 @@ endpoints:
         name: id
         description: 'The ID of the transaction.'
         required: true
-        example: architecto
+        example: 01a1ba78-0ab1-705a-b898-3305d3b8d39f
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      id: architecto
+      id: 01a1ba78-0ab1-705a-b898-3305d3b8d39f
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -288,11 +477,8 @@ endpoints:
     responses:
       -
         custom: []
-        status: 404
-        content: |-
-          {
-              "message": "No query results for model [App\\Models\\Transaction] architecto"
-          }
+        status: 401
+        content: '{"message":"Unauthenticated."}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
@@ -334,14 +520,14 @@ endpoints:
         name: id
         description: 'The ID of the transaction.'
         required: true
-        example: architecto
+        example: 01a1ba78-0ab1-705a-b898-3305d3b8d39f
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      id: architecto
+      id: 01a1ba78-0ab1-705a-b898-3305d3b8d39f
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -372,7 +558,7 @@ endpoints:
         name: type
         description: ''
         required: false
-        example: expense
+        example: income
         type: string
         enumValues:
           - income
@@ -396,7 +582,7 @@ endpoints:
         name: occurred_at
         description: 'Must be a valid date.'
         required: false
-        example: '2026-11-08T05:23:26'
+        example: '2026-11-10T03:37:19'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -416,9 +602,9 @@ endpoints:
     cleanBodyParameters:
       wallet_id: 6ff8f7f6-1eb3-3525-be4a-3932c805afed
       category_id: 6b72fe4a-5b40-307c-bc24-f79acf9a1bb9
-      type: expense
+      type: income
       amount: 17
-      occurred_at: '2026-11-08T05:23:26'
+      occurred_at: '2026-11-10T03:37:19'
       note: i
     fileParameters: []
     responses: []
@@ -457,14 +643,14 @@ endpoints:
         name: id
         description: 'The ID of the transaction.'
         required: true
-        example: architecto
+        example: 01a1ba78-0ab1-705a-b898-3305d3b8d39f
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      id: architecto
+      id: 01a1ba78-0ab1-705a-b898-3305d3b8d39f
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []

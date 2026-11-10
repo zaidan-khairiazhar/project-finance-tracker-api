@@ -14,11 +14,17 @@ tags:
     name: Auth
     description: "\nRegistrasi, login, logout, dan profil user. Token Sanctum dikirim sebagai `Authorization: Bearer <token>`."
   -
+    name: Budgets
+    description: "\nAnggaran bulanan tetap per kategori pengeluaran. Berlaku setiap bulan sampai diubah;\nanggaran kategori induk menjumlah subkategorinya."
+  -
     name: Categories
     description: "\nKategori pemasukan dan pengeluaran, maksimal dua tingkat."
   -
     name: Dashboard
     description: "\nRingkasan bulanan; batas bulan dihitung di zona Asia/Jakarta."
+  -
+    name: Reports
+    description: "\nLaporan dihitung langsung dari transaksi. Bulan menurut Asia/Jakarta; transfer tidak dihitung."
   -
     name: Transactions
     description: "\nTransaksi pemasukan dan pengeluaran. Waktu dikirim dengan offset, disimpan UTC, dikembalikan dengan akhiran Z."
@@ -150,6 +156,81 @@ paths:
                     example: Unauthenticated.
       tags:
         - Auth
+  /api/v1/budgets:
+    get:
+      summary: 'Daftar anggaran beserta pemakaiannya'
+      operationId: daftarAnggaranBesertaPemakaiannya
+      description: ''
+      parameters:
+        -
+          in: query
+          name: month
+          description: 'Bulan `YYYY-MM` (Asia/Jakarta). Default bulan berjalan.'
+          example: 2026-11
+          required: false
+          schema:
+            type: string
+            description: 'Bulan `YYYY-MM` (Asia/Jakarta). Default bulan berjalan.'
+            example: 2026-11
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Budgets
+    put:
+      summary: 'Atur anggaran kategori (buat atau ubah)'
+      operationId: aturAnggaranKategoribuatAtauUbah
+      description: 'Mengembalikan 201 jika anggaran baru, 200 jika memperbarui anggaran yang ada.'
+      parameters: []
+      responses: {}
+      tags:
+        - Budgets
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                category_id:
+                  type: string
+                  description: 'Must be a valid UUID.'
+                  example: 6ff8f7f6-1eb3-3525-be4a-3932c805afed
+                amount:
+                  type: integer
+                  description: 'Must be at least 1. Must not be greater than 9007199254740991.'
+                  example: 7
+              required:
+                - category_id
+                - amount
+  '/api/v1/budgets/{budget_id}':
+    delete:
+      summary: 'Hapus anggaran'
+      operationId: hapusAnggaran
+      description: ''
+      parameters: []
+      responses: {}
+      tags:
+        - Budgets
+    parameters:
+      -
+        in: path
+        name: budget_id
+        description: 'The ID of the budget.'
+        example: architecto
+        required: true
+        schema:
+          type: string
   /api/v1/categories:
     get:
       summary: 'Daftar kategori'
@@ -181,7 +262,7 @@ paths:
                 type:
                   type: string
                   description: ''
-                  example: income
+                  example: expense
                   enum:
                     - income
                     - expense
@@ -223,8 +304,8 @@ paths:
                   nullable: true
                 parent_id:
                   type: string
-                  description: ''
-                  example: null
+                  description: 'Must be a valid UUID.'
+                  example: c3b6b42e-3a0f-3935-b28d-cb767f8a2a0a
                   nullable: true
               required:
                 - name
@@ -261,8 +342,8 @@ paths:
                   nullable: true
                 parent_id:
                   type: string
-                  description: 'Must not be one of <code></code>.'
-                  example: null
+                  description: 'Must be a valid UUID. Must not be one of <code></code>.'
+                  example: c3b6b42e-3a0f-3935-b28d-cb767f8a2a0a
                   nullable: true
     delete:
       summary: 'Hapus kategori'
@@ -277,7 +358,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the category.'
-        example: architecto
+        example: 01a1b9c0-ca5c-70c9-89b2-8435453298e6
         required: true
         schema:
           type: string
@@ -288,18 +369,18 @@ paths:
       description: ''
       parameters: []
       responses:
-        500:
+        401:
           description: ''
           content:
             application/json:
               schema:
                 type: object
                 example:
-                  message: 'Server Error'
+                  message: Unauthenticated.
                 properties:
                   message:
                     type: string
-                    example: 'Server Error'
+                    example: Unauthenticated.
       tags:
         - Dashboard
   /api/v1/dashboard/by-category:
@@ -309,97 +390,253 @@ paths:
       description: ''
       parameters: []
       responses:
-        422:
+        401:
           description: ''
           content:
             application/json:
               schema:
                 type: object
                 example:
-                  message: 'The type field is required.'
-                  errors:
-                    type:
-                      - 'The type field is required.'
+                  message: Unauthenticated.
                 properties:
                   message:
                     type: string
-                    example: 'The type field is required.'
-                  errors:
-                    type: object
-                    properties:
-                      type:
-                        type: array
-                        example:
-                          - 'The type field is required.'
-                        items:
-                          type: string
+                    example: Unauthenticated.
       tags:
         - Dashboard
-  /api/v1/transactions:
+  /api/v1/reports/monthly-trend:
     get:
-      summary: 'Daftar transaksi (paginasi cursor)'
-      operationId: daftarTransaksipaginasiCursor
-      description: ''
-      parameters: []
+      summary: 'Tren bulanan'
+      operationId: trenBulanan
+      description: 'Pemasukan, pengeluaran, dan selisih per bulan; tepat `months` item, berakhir di bulan berjalan.'
+      parameters:
+        -
+          in: query
+          name: months
+          description: '6 atau 12. Default 6.'
+          example: 6
+          required: false
+          schema:
+            type: integer
+            description: '6 atau 12. Default 6.'
+            example: 6
       responses:
-        200:
+        401:
           description: ''
           content:
             application/json:
               schema:
                 type: object
                 example:
-                  data: []
-                  links:
-                    first: null
-                    last: null
-                    prev: null
-                    next: null
-                  meta:
-                    path: 'http://localhost:8000/api/v1/transactions'
-                    per_page: 15
-                    next_cursor: null
-                    prev_cursor: null
+                  message: Unauthenticated.
                 properties:
-                  data:
-                    type: array
-                    example: []
-                  links:
-                    type: object
-                    properties:
-                      first:
-                        type: string
-                        example: null
-                        nullable: true
-                      last:
-                        type: string
-                        example: null
-                        nullable: true
-                      prev:
-                        type: string
-                        example: null
-                        nullable: true
-                      next:
-                        type: string
-                        example: null
-                        nullable: true
-                  meta:
-                    type: object
-                    properties:
-                      path:
-                        type: string
-                        example: 'http://localhost:8000/api/v1/transactions'
-                      per_page:
-                        type: integer
-                        example: 15
-                      next_cursor:
-                        type: string
-                        example: null
-                        nullable: true
-                      prev_cursor:
-                        type: string
-                        example: null
-                        nullable: true
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Reports
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                months:
+                  type: string
+                  description: ''
+                  example: null
+  /api/v1/reports/category-comparison:
+    get:
+      summary: 'Rincian kategori lintas bulan'
+      operationId: rincianKategoriLintasBulan
+      description: ''
+      parameters:
+        -
+          in: query
+          name: months
+          description: '3 sampai 12. Default 6.'
+          example: 6
+          required: false
+          schema:
+            type: integer
+            description: '3 sampai 12. Default 6.'
+            example: 6
+        -
+          in: query
+          name: type
+          description: 'expense atau income. Default expense.'
+          example: expense
+          required: false
+          schema:
+            type: string
+            description: 'expense atau income. Default expense.'
+            example: expense
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Reports
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                months:
+                  type: integer
+                  description: 'Must be between 3 and 12.'
+                  example: 4
+                type:
+                  type: string
+                  description: ''
+                  example: null
+  /api/v1/reports/wallets:
+    get:
+      summary: 'Laporan per dompet'
+      operationId: laporanPerDompet
+      description: "Pemasukan, pengeluaran, dan transfer per dompet pada rentang tanggal (Asia/Jakarta, inklusif),\nserta saldo akhir pada akhir hari `to`. Rentang maksimum 366 hari."
+      parameters:
+        -
+          in: query
+          name: from
+          description: 'Tanggal awal `YYYY-MM-DD`. Default awal bulan berjalan.'
+          example: '2026-11-01'
+          required: false
+          schema:
+            type: string
+            description: 'Tanggal awal `YYYY-MM-DD`. Default awal bulan berjalan.'
+            example: '2026-11-01'
+        -
+          in: query
+          name: to
+          description: 'Tanggal akhir `YYYY-MM-DD`. Default akhir bulan berjalan.'
+          example: '2026-11-30'
+          required: false
+          schema:
+            type: string
+            description: 'Tanggal akhir `YYYY-MM-DD`. Default akhir bulan berjalan.'
+            example: '2026-11-30'
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Reports
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                from:
+                  type: string
+                  description: 'Must be a valid date in the format <code>Y-m-d</code>.'
+                  example: '2026-11-10'
+                to:
+                  type: string
+                  description: 'Must be a valid date in the format <code>Y-m-d</code>.'
+                  example: '2026-11-10'
+  /api/v1/transactions/export:
+    get:
+      summary: 'Ekspor transaksi ke CSV'
+      operationId: eksporTransaksiKeCSV
+      description: "Filter sama seperti daftar transaksi, tanpa paginasi. Berkas UTF-8 dengan BOM, waktu dalam WIB,\nurut dari yang terbaru. Maksimum 50.000 baris (lebih dari itu 422: persempit filter)."
+      parameters:
+        -
+          in: query
+          name: wallet_id
+          description: 'UUID dompet.'
+          example: 0198f0a0-0000-7000-8000-000000000000
+          required: false
+          schema:
+            type: string
+            description: 'UUID dompet.'
+            example: 0198f0a0-0000-7000-8000-000000000000
+        -
+          in: query
+          name: category_id
+          description: 'UUID kategori.'
+          example: architecto
+          required: false
+          schema:
+            type: string
+            description: 'UUID kategori.'
+            example: architecto
+        -
+          in: query
+          name: type
+          description: 'income, expense, transfer_out, atau transfer_in.'
+          example: architecto
+          required: false
+          schema:
+            type: string
+            description: 'income, expense, transfer_out, atau transfer_in.'
+            example: architecto
+        -
+          in: query
+          name: from
+          description: 'Tanggal awal `YYYY-MM-DD` (Asia/Jakarta).'
+          example: '2026-11-01'
+          required: false
+          schema:
+            type: string
+            description: 'Tanggal awal `YYYY-MM-DD` (Asia/Jakarta).'
+            example: '2026-11-01'
+        -
+          in: query
+          name: to
+          description: 'Tanggal akhir `YYYY-MM-DD` (Asia/Jakarta, inklusif).'
+          example: '2026-11-30'
+          required: false
+          schema:
+            type: string
+            description: 'Tanggal akhir `YYYY-MM-DD` (Asia/Jakarta, inklusif).'
+            example: '2026-11-30'
+        -
+          in: query
+          name: q
+          description: 'Cari di catatan.'
+          example: architecto
+          required: false
+          schema:
+            type: string
+            description: 'Cari di catatan.'
+            example: architecto
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
       tags:
         - Transactions
       requestBody:
@@ -424,11 +661,63 @@ paths:
                 from:
                   type: string
                   description: 'Must be a valid date.'
-                  example: '2026-11-08T05:23:26'
+                  example: '2026-11-10T03:37:19'
                 to:
                   type: string
                   description: 'Must be a valid date.'
-                  example: '2026-11-08T05:23:26'
+                  example: '2026-11-10T03:37:19'
+                q:
+                  type: string
+                  description: 'Must not be greater than 100 characters.'
+                  example: m
+  /api/v1/transactions:
+    get:
+      summary: 'Daftar transaksi (paginasi cursor)'
+      operationId: daftarTransaksipaginasiCursor
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Transactions
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                wallet_id:
+                  type: string
+                  description: 'Must be a valid UUID.'
+                  example: 6ff8f7f6-1eb3-3525-be4a-3932c805afed
+                category_id:
+                  type: string
+                  description: 'Must be a valid UUID.'
+                  example: 6b72fe4a-5b40-307c-bc24-f79acf9a1bb9
+                type:
+                  type: string
+                  description: ''
+                  example: null
+                from:
+                  type: string
+                  description: 'Must be a valid date.'
+                  example: '2026-11-10T03:37:19'
+                to:
+                  type: string
+                  description: 'Must be a valid date.'
+                  example: '2026-11-10T03:37:19'
                 q:
                   type: string
                   description: 'Must not be greater than 100 characters.'
@@ -464,7 +753,7 @@ paths:
                 type:
                   type: string
                   description: ''
-                  example: expense
+                  example: income
                   enum:
                     - income
                     - expense
@@ -475,7 +764,7 @@ paths:
                 occurred_at:
                   type: string
                   description: 'Must be a valid date.'
-                  example: '2026-11-08T05:23:26'
+                  example: '2026-11-10T03:37:19'
                   nullable: true
                 note:
                   type: string
@@ -493,18 +782,18 @@ paths:
       description: ''
       parameters: []
       responses:
-        404:
+        401:
           description: ''
           content:
             application/json:
               schema:
                 type: object
                 example:
-                  message: 'No query results for model [App\Models\Transaction] architecto'
+                  message: Unauthenticated.
                 properties:
                   message:
                     type: string
-                    example: 'No query results for model [App\Models\Transaction] architecto'
+                    example: Unauthenticated.
       tags:
         - Transactions
     put:
@@ -534,7 +823,7 @@ paths:
                 type:
                   type: string
                   description: ''
-                  example: expense
+                  example: income
                   enum:
                     - income
                     - expense
@@ -545,7 +834,7 @@ paths:
                 occurred_at:
                   type: string
                   description: 'Must be a valid date.'
-                  example: '2026-11-08T05:23:26'
+                  example: '2026-11-10T03:37:19'
                 note:
                   type: string
                   description: 'Must not be greater than 255 characters.'
@@ -564,7 +853,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the transaction.'
-        example: architecto
+        example: 01a1ba78-0ab1-705a-b898-3305d3b8d39f
         required: true
         schema:
           type: string
@@ -599,7 +888,7 @@ paths:
                 occurred_at:
                   type: string
                   description: 'Must be a valid date.'
-                  example: '2026-11-08T05:23:26'
+                  example: '2026-11-10T03:37:19'
                   nullable: true
                 note:
                   type: string
@@ -671,7 +960,7 @@ paths:
                 type:
                   type: string
                   description: ''
-                  example: cash
+                  example: ewallet
                   enum:
                     - cash
                     - bank
@@ -726,7 +1015,7 @@ paths:
                 type:
                   type: string
                   description: ''
-                  example: ewallet
+                  example: cash
                   enum:
                     - cash
                     - bank
@@ -752,7 +1041,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the wallet.'
-        example: architecto
+        example: 01a1bbf5-4ade-7022-a9f2-30c7607c3765
         required: true
         schema:
           type: string

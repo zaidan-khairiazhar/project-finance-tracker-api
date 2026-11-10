@@ -1,0 +1,177 @@
+name: Budgets
+description: |-
+
+  Anggaran bulanan tetap per kategori pengeluaran. Berlaku setiap bulan sampai diubah;
+  anggaran kategori induk menjumlah subkategorinya.
+endpoints:
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/v1/budgets
+    metadata:
+      custom: []
+      groupName: Budgets
+      groupDescription: |-
+
+        Anggaran bulanan tetap per kategori pengeluaran. Berlaku setiap bulan sampai diubah;
+        anggaran kategori induk menjumlah subkategorinya.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Daftar anggaran beserta pemakaiannya'
+      description: ''
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters:
+      month:
+        custom: []
+        name: month
+        description: 'Bulan `YYYY-MM` (Asia/Jakarta). Default bulan berjalan.'
+        required: false
+        example: 2026-11
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanQueryParameters:
+      month: 2026-11
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 401
+        content: '{"message":"Unauthenticated."}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: '*'
+        description: null
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - PUT
+    uri: api/v1/budgets
+    metadata:
+      custom: []
+      groupName: Budgets
+      groupDescription: |-
+
+        Anggaran bulanan tetap per kategori pengeluaran. Berlaku setiap bulan sampai diubah;
+        anggaran kategori induk menjumlah subkategorinya.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Atur anggaran kategori (buat atau ubah)'
+      description: 'Mengembalikan 201 jika anggaran baru, 200 jika memperbarui anggaran yang ada.'
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      category_id:
+        custom: []
+        name: category_id
+        description: 'Must be a valid UUID.'
+        required: true
+        example: 6ff8f7f6-1eb3-3525-be4a-3932c805afed
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      amount:
+        custom: []
+        name: amount
+        description: 'Must be at least 1. Must not be greater than 9007199254740991.'
+        required: true
+        example: 7
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      category_id: 6ff8f7f6-1eb3-3525-be4a-3932c805afed
+      amount: 7
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - DELETE
+    uri: 'api/v1/budgets/{budget_id}'
+    metadata:
+      custom: []
+      groupName: Budgets
+      groupDescription: |-
+
+        Anggaran bulanan tetap per kategori pengeluaran. Berlaku setiap bulan sampai diubah;
+        anggaran kategori induk menjumlah subkategorinya.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Hapus anggaran'
+      description: ''
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      budget_id:
+        custom: []
+        name: budget_id
+        description: 'The ID of the budget.'
+        required: true
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      budget_id: architecto
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
