@@ -6,11 +6,13 @@ use App\Enums\CategoryType;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Http\Resources\CategoryResource;
+use App\Models\Budget;
 use App\Models\Category;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
@@ -71,7 +73,11 @@ class CategoryController extends Controller
             ]);
         }
 
-        $category->delete();
+        // Kategori di-soft-delete sehingga ON DELETE CASCADE tidak berjalan; anggarannya dihapus manual.
+        DB::transaction(function () use ($category) {
+            Budget::where('category_id', $category->id)->delete();
+            $category->delete();
+        });
 
         return response()->noContent();
     }

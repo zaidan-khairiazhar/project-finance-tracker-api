@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
+use App\Models\Budget;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -33,5 +34,9 @@ class AppServiceProvider extends ServiceProvider
 
         RateLimiter::for('login', fn (Request $request) => Limit::perMinute(5)
             ->by(strtolower((string) $request->input('email')).'|'.$request->ip()));
+
+        foreach ([Wallet::class, Category::class, Transaction::class, Budget::class] as $model) {
+            Gate::policy($model, OwnedByUserPolicy::class);
+        }
     }
 }

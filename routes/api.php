@@ -8,6 +8,8 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\TransferController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\BudgetController;
+use App\Http\Controllers\ReportController;
 
 Route::get('/', function () {
     return response()->json(['message' => 'Finance API is running.']);
@@ -37,4 +39,11 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('dashboard/summary', [DashboardController::class, 'summary']);
     Route::get('dashboard/by-category', [DashboardController::class, 'byCategory']);
+
+    Route::get('budgets', [BudgetController::class, 'index']);
+    Route::put('budgets', [BudgetController::class, 'upsert']);
+    Route::delete('budgets/{budget}', [BudgetController::class, 'destroy'])->whereUuid('budget');
+
+    Route::get('reports/monthly-trend', [ReportController::class, 'monthlyTrend']);
+    Route::get('reports/category-comparison', [ReportController::class, 'categoryComparison']);
 });
