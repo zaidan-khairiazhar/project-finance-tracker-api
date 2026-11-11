@@ -11,6 +11,9 @@ Dibangun dengan Laravel 12, Sanctum, dan PostgreSQL. Klien web ada di repo `fina
 - Transaksi dengan filter (dompet, kategori, tipe, tanggal, pencarian catatan) dan paginasi cursor.
 - Transfer antar dompet: dua baris transaksi yang saling terhubung, atomik.
 - Dashboard bulanan (pemasukan, pengeluaran, selisih, total saldo, total per kategori).
+- Anggaran bulanan per kategori (`over` jika terpakai > batas, `warning` mulai 80%); anggaran induk menjumlah subkategorinya.
+- Laporan: tren bulanan, perbandingan kategori antar bulan, dan ringkasan per dompet pada rentang tanggal.
+- Ekspor transaksi ke CSV (UTF-8 dengan BOM, waktu WIB, maksimum 50.000 baris).
 
 ## Keputusan desain
 
@@ -61,3 +64,6 @@ Hasilnya ada di `public/docs/index.html` (buka lewat `http://localhost:8000/docs
 | Transactions | `GET\|POST /transactions`, `GET\|PATCH\|DELETE /transactions/{id}` |
 | Transfers | `POST /transfers`, `DELETE /transfers/{groupId}` |
 | Dashboard | `GET /dashboard/summary?month=YYYY-MM`, `GET /dashboard/by-category?month=YYYY-MM&type=expense\|income` |
+| Budgets | `GET /budgets?month=YYYY-MM`, `PUT /budgets` (upsert; 201 jika baru, 200 jika diperbarui), `DELETE /budgets/{id}` |
+| Reports | `GET /reports/monthly-trend?months=6\|12`, `GET /reports/category-comparison?months=3..12&type=expense\|income`, `GET /reports/wallets?from=&to=` (maks. 366 hari) |
+| Export | `GET /transactions/export` (CSV; filter sama seperti daftar transaksi) |

@@ -10,7 +10,7 @@
     ],
     "info": {
         "name": "Finance Tracker API",
-        "_postman_id": "d35d332e-4b43-4812-814a-052c8619a192",
+        "_postman_id": "30a627d3-2c1f-49c5-93dc-660a8f1e6e8f",
         "description": "",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
@@ -300,7 +300,7 @@
                                 {
                                     "id": "budget_id",
                                     "key": "budget_id",
-                                    "value": "architecto",
+                                    "value": "01a1c555-74ef-7231-9d89-498eed980633",
                                     "description": "The ID of the budget."
                                 }
                             ]
@@ -349,7 +349,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"type\":\"expense\"}"
+                            "raw": "{\"type\":\"income\"}"
                         },
                         "description": ""
                     },
@@ -397,7 +397,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"b\",\"type\":\"expense\",\"icon\":\"n\",\"color\":\"#EeDb3B\",\"parent_id\":\"c3b6b42e-3a0f-3935-b28d-cb767f8a2a0a\"}"
+                            "raw": "{\"name\":\"b\",\"type\":\"income\",\"icon\":\"n\",\"color\":\"#EeDb3B\",\"parent_id\":\"c3b6b42e-3a0f-3935-b28d-cb767f8a2a0a\"}"
                         },
                         "description": ""
                     },
@@ -725,7 +725,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"from\":\"2026-11-10\",\"to\":\"2026-11-10\"}"
+                            "raw": "{\"from\":\"2026-11-11\",\"to\":\"2026-11-11\"}"
                         },
                         "description": "Pemasukan, pengeluaran, dan transfer per dompet pada rentang tanggal (Asia\/Jakarta, inklusif),\nserta saldo akhir pada akhir hari `to`. Rentang maksimum 366 hari."
                     },
@@ -816,7 +816,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"wallet_id\":\"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",\"category_id\":\"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",\"from\":\"2026-11-10T03:37:19\",\"to\":\"2026-11-10T03:37:19\",\"q\":\"m\"}"
+                            "raw": "{\"wallet_id\":\"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",\"category_id\":\"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",\"from\":\"2026-11-11T08:21:51\",\"to\":\"2026-11-11T08:21:51\",\"q\":\"m\"}"
                         },
                         "description": "Filter sama seperti daftar transaksi, tanpa paginasi. Berkas UTF-8 dengan BOM, waktu dalam WIB,\nurut dari yang terbaru. Maksimum 50.000 baris (lebih dari itu 422: persempit filter)."
                     },
@@ -864,7 +864,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"wallet_id\":\"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",\"category_id\":\"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",\"from\":\"2026-11-10T03:37:19\",\"to\":\"2026-11-10T03:37:19\",\"q\":\"m\",\"per_page\":15}"
+                            "raw": "{\"wallet_id\":\"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",\"category_id\":\"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",\"from\":\"2026-11-11T08:21:51\",\"to\":\"2026-11-11T08:21:51\",\"q\":\"m\",\"per_page\":15}"
                         },
                         "description": ""
                     },
@@ -912,7 +912,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"wallet_id\":\"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",\"category_id\":\"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",\"type\":\"income\",\"amount\":17,\"occurred_at\":\"2026-11-10T03:37:19\",\"note\":\"i\"}"
+                            "raw": "{\"wallet_id\":\"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",\"category_id\":\"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",\"type\":\"expense\",\"amount\":17,\"occurred_at\":\"2026-11-11T08:21:51\",\"note\":\"i\"}"
                         },
                         "description": ""
                     },
@@ -1001,7 +1001,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"wallet_id\":\"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",\"category_id\":\"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",\"type\":\"income\",\"amount\":17,\"occurred_at\":\"2026-11-10T03:37:19\",\"note\":\"i\"}"
+                            "raw": "{\"wallet_id\":\"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",\"category_id\":\"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",\"type\":\"income\",\"amount\":17,\"occurred_at\":\"2026-11-11T08:21:51\",\"note\":\"i\"}"
                         },
                         "description": ""
                     },
@@ -1068,7 +1068,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"from_wallet_id\":\"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",\"to_wallet_id\":\"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",\"amount\":17,\"occurred_at\":\"2026-11-10T03:37:19\",\"note\":\"i\"}"
+                            "raw": "{\"from_wallet_id\":\"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",\"to_wallet_id\":\"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",\"amount\":17,\"occurred_at\":\"2026-11-11T08:21:51\",\"note\":\"i\"}"
                         },
                         "description": ""
                     },
@@ -1180,7 +1180,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"b\",\"type\":\"ewallet\",\"initial_balance\":22}"
+                            "raw": "{\"name\":\"b\",\"type\":\"bank\",\"initial_balance\":22}"
                         },
                         "description": ""
                     },
@@ -1269,7 +1269,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"b\",\"type\":\"cash\",\"initial_balance\":22,\"is_archived\":true}"
+                            "raw": "{\"name\":\"b\",\"type\":\"ewallet\",\"initial_balance\":22,\"is_archived\":false}"
                         },
                         "description": ""
                     },

@@ -153,14 +153,14 @@ endpoints:
         name: budget_id
         description: 'The ID of the budget.'
         required: true
-        example: architecto
+        example: 01a1c555-74ef-7231-9d89-498eed980633
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      budget_id: architecto
+      budget_id: 01a1c555-74ef-7231-9d89-498eed980633
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []

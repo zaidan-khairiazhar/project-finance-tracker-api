@@ -93,7 +93,7 @@ endpoints:
         name: type
         description: ''
         required: true
-        example: ewallet
+        example: bank
         type: string
         enumValues:
           - cash
@@ -115,7 +115,7 @@ endpoints:
         deprecated: false
     cleanBodyParameters:
       name: b
-      type: ewallet
+      type: bank
       initial_balance: 22
     fileParameters: []
     responses: []
@@ -240,7 +240,7 @@ endpoints:
         name: type
         description: ''
         required: false
-        example: cash
+        example: ewallet
         type: string
         enumValues:
           - cash
@@ -265,7 +265,7 @@ endpoints:
         name: is_archived
         description: ''
         required: false
-        example: true
+        example: false
         type: boolean
         enumValues: []
         exampleWasSpecified: false
@@ -273,9 +273,9 @@ endpoints:
         deprecated: false
     cleanBodyParameters:
       name: b
-      type: cash
+      type: ewallet
       initial_balance: 22
-      is_archived: true
+      is_archived: false
     fileParameters: []
     responses: []
     responseFields: []

@@ -229,7 +229,7 @@ dompet yang masih kosong benar-benar dihapus (soft delete).</a>
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: November 10, 2026</li>
+        <li>Last updated: November 11, 2026</li>
     </ul>
 </div>
 
@@ -1315,7 +1315,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost:8000/api/v1/budgets/architecto" \
+    "http://localhost:8000/api/v1/budgets/01a1c555-74ef-7231-9d89-498eed980633" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -1323,7 +1323,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/budgets/architecto"
+    "http://localhost:8000/api/v1/budgets/01a1c555-74ef-7231-9d89-498eed980633"
 );
 
 const headers = {
@@ -1433,10 +1433,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="budget_id"                data-endpoint="DELETEapi-v1-budgets--budget_id-"
-               value="architecto"
+               value="01a1c555-74ef-7231-9d89-498eed980633"
                data-component="url">
     <br>
-<p>The ID of the budget. Example: <code>architecto</code></p>
+<p>The ID of the budget. Example: <code>01a1c555-74ef-7231-9d89-498eed980633</code></p>
             </div>
                     </form>
 
@@ -1463,7 +1463,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"type\": \"expense\"
+    \"type\": \"income\"
 }"
 </code></pre></div>
 
@@ -1480,7 +1480,7 @@ const headers = {
 };
 
 let body = {
-    "type": "expense"
+    "type": "income"
 };
 
 fetch(url, {
@@ -1600,10 +1600,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="type"                data-endpoint="GETapi-v1-categories"
-               value="expense"
+               value="income"
                data-component="body">
     <br>
-<p>Example: <code>expense</code></p>
+<p>Example: <code>income</code></p>
 Must be one of:
 <ul style="list-style-type: square;"><li><code>income</code></li> <li><code>expense</code></li></ul>
         </div>
@@ -1629,7 +1629,7 @@ Must be one of:
     --header "Accept: application/json" \
     --data "{
     \"name\": \"b\",
-    \"type\": \"expense\",
+    \"type\": \"income\",
     \"icon\": \"n\",
     \"color\": \"#EeDb3B\",
     \"parent_id\": \"c3b6b42e-3a0f-3935-b28d-cb767f8a2a0a\"
@@ -1650,7 +1650,7 @@ const headers = {
 
 let body = {
     "name": "b",
-    "type": "expense",
+    "type": "income",
     "icon": "n",
     "color": "#EeDb3B",
     "parent_id": "c3b6b42e-3a0f-3935-b28d-cb767f8a2a0a"
@@ -1769,10 +1769,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="type"                data-endpoint="POSTapi-v1-categories"
-               value="expense"
+               value="income"
                data-component="body">
     <br>
-<p>Example: <code>expense</code></p>
+<p>Example: <code>income</code></p>
 Must be one of:
 <ul style="list-style-type: square;"><li><code>income</code></li> <li><code>expense</code></li></ul>
         </div>
@@ -2853,8 +2853,8 @@ serta saldo akhir pada akhir hari <code>to</code>. Rentang maksimum 366 hari.</p
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"from\": \"2026-11-10\",
-    \"to\": \"2026-11-10\"
+    \"from\": \"2026-11-11\",
+    \"to\": \"2026-11-11\"
 }"
 </code></pre></div>
 
@@ -2878,8 +2878,8 @@ const headers = {
 };
 
 let body = {
-    "from": "2026-11-10",
-    "to": "2026-11-10"
+    "from": "2026-11-11",
+    "to": "2026-11-11"
 };
 
 fetch(url, {
@@ -3024,10 +3024,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="from"                data-endpoint="GETapi-v1-reports-wallets"
-               value="2026-11-10"
+               value="2026-11-11"
                data-component="body">
     <br>
-<p>Must be a valid date in the format <code>Y-m-d</code>. Example: <code>2026-11-10</code></p>
+<p>Must be a valid date in the format <code>Y-m-d</code>. Example: <code>2026-11-11</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>to</code></b>&nbsp;&nbsp;
@@ -3036,10 +3036,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="to"                data-endpoint="GETapi-v1-reports-wallets"
-               value="2026-11-10"
+               value="2026-11-11"
                data-component="body">
     <br>
-<p>Must be a valid date in the format <code>Y-m-d</code>. Example: <code>2026-11-10</code></p>
+<p>Must be a valid date in the format <code>Y-m-d</code>. Example: <code>2026-11-11</code></p>
         </div>
         </form>
 
@@ -3069,8 +3069,8 @@ urut dari yang terbaru. Maksimum 50.000 baris (lebih dari itu 422: persempit fil
     --data "{
     \"wallet_id\": \"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",
     \"category_id\": \"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",
-    \"from\": \"2026-11-10T03:37:19\",
-    \"to\": \"2026-11-10T03:37:19\",
+    \"from\": \"2026-11-11T08:21:51\",
+    \"to\": \"2026-11-11T08:21:51\",
     \"q\": \"m\"
 }"
 </code></pre></div>
@@ -3101,8 +3101,8 @@ const headers = {
 let body = {
     "wallet_id": "6ff8f7f6-1eb3-3525-be4a-3932c805afed",
     "category_id": "6b72fe4a-5b40-307c-bc24-f79acf9a1bb9",
-    "from": "2026-11-10T03:37:19",
-    "to": "2026-11-10T03:37:19",
+    "from": "2026-11-11T08:21:51",
+    "to": "2026-11-11T08:21:51",
     "q": "m"
 };
 
@@ -3332,10 +3332,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="from"                data-endpoint="GETapi-v1-transactions-export"
-               value="2026-11-10T03:37:19"
+               value="2026-11-11T08:21:51"
                data-component="body">
     <br>
-<p>Must be a valid date. Example: <code>2026-11-10T03:37:19</code></p>
+<p>Must be a valid date. Example: <code>2026-11-11T08:21:51</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>to</code></b>&nbsp;&nbsp;
@@ -3344,10 +3344,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="to"                data-endpoint="GETapi-v1-transactions-export"
-               value="2026-11-10T03:37:19"
+               value="2026-11-11T08:21:51"
                data-component="body">
     <br>
-<p>Must be a valid date. Example: <code>2026-11-10T03:37:19</code></p>
+<p>Must be a valid date. Example: <code>2026-11-11T08:21:51</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>q</code></b>&nbsp;&nbsp;
@@ -3384,8 +3384,8 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --data "{
     \"wallet_id\": \"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",
     \"category_id\": \"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",
-    \"from\": \"2026-11-10T03:37:19\",
-    \"to\": \"2026-11-10T03:37:19\",
+    \"from\": \"2026-11-11T08:21:51\",
+    \"to\": \"2026-11-11T08:21:51\",
     \"q\": \"m\",
     \"per_page\": 15
 }"
@@ -3406,8 +3406,8 @@ const headers = {
 let body = {
     "wallet_id": "6ff8f7f6-1eb3-3525-be4a-3932c805afed",
     "category_id": "6b72fe4a-5b40-307c-bc24-f79acf9a1bb9",
-    "from": "2026-11-10T03:37:19",
-    "to": "2026-11-10T03:37:19",
+    "from": "2026-11-11T08:21:51",
+    "to": "2026-11-11T08:21:51",
     "q": "m",
     "per_page": 15
 };
@@ -3565,10 +3565,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="from"                data-endpoint="GETapi-v1-transactions"
-               value="2026-11-10T03:37:19"
+               value="2026-11-11T08:21:51"
                data-component="body">
     <br>
-<p>Must be a valid date. Example: <code>2026-11-10T03:37:19</code></p>
+<p>Must be a valid date. Example: <code>2026-11-11T08:21:51</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>to</code></b>&nbsp;&nbsp;
@@ -3577,10 +3577,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="to"                data-endpoint="GETapi-v1-transactions"
-               value="2026-11-10T03:37:19"
+               value="2026-11-11T08:21:51"
                data-component="body">
     <br>
-<p>Must be a valid date. Example: <code>2026-11-10T03:37:19</code></p>
+<p>Must be a valid date. Example: <code>2026-11-11T08:21:51</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>q</code></b>&nbsp;&nbsp;
@@ -3629,9 +3629,9 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --data "{
     \"wallet_id\": \"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",
     \"category_id\": \"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",
-    \"type\": \"income\",
+    \"type\": \"expense\",
     \"amount\": 17,
-    \"occurred_at\": \"2026-11-10T03:37:19\",
+    \"occurred_at\": \"2026-11-11T08:21:51\",
     \"note\": \"i\"
 }"
 </code></pre></div>
@@ -3651,9 +3651,9 @@ const headers = {
 let body = {
     "wallet_id": "6ff8f7f6-1eb3-3525-be4a-3932c805afed",
     "category_id": "6b72fe4a-5b40-307c-bc24-f79acf9a1bb9",
-    "type": "income",
+    "type": "expense",
     "amount": 17,
-    "occurred_at": "2026-11-10T03:37:19",
+    "occurred_at": "2026-11-11T08:21:51",
     "note": "i"
 };
 
@@ -3782,10 +3782,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="type"                data-endpoint="POSTapi-v1-transactions"
-               value="income"
+               value="expense"
                data-component="body">
     <br>
-<p>Example: <code>income</code></p>
+<p>Example: <code>expense</code></p>
 Must be one of:
 <ul style="list-style-type: square;"><li><code>income</code></li> <li><code>expense</code></li></ul>
         </div>
@@ -3808,10 +3808,10 @@ Must be one of:
  &nbsp;
                 <input type="text" style="display: none"
                               name="occurred_at"                data-endpoint="POSTapi-v1-transactions"
-               value="2026-11-10T03:37:19"
+               value="2026-11-11T08:21:51"
                data-component="body">
     <br>
-<p>Must be a valid date. Example: <code>2026-11-10T03:37:19</code></p>
+<p>Must be a valid date. Example: <code>2026-11-11T08:21:51</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>note</code></b>&nbsp;&nbsp;
@@ -4005,7 +4005,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     \"category_id\": \"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",
     \"type\": \"income\",
     \"amount\": 17,
-    \"occurred_at\": \"2026-11-10T03:37:19\",
+    \"occurred_at\": \"2026-11-11T08:21:51\",
     \"note\": \"i\"
 }"
 </code></pre></div>
@@ -4027,7 +4027,7 @@ let body = {
     "category_id": "6b72fe4a-5b40-307c-bc24-f79acf9a1bb9",
     "type": "income",
     "amount": 17,
-    "occurred_at": "2026-11-10T03:37:19",
+    "occurred_at": "2026-11-11T08:21:51",
     "note": "i"
 };
 
@@ -4199,10 +4199,10 @@ Must be one of:
  &nbsp;
                 <input type="text" style="display: none"
                               name="occurred_at"                data-endpoint="PUTapi-v1-transactions--id-"
-               value="2026-11-10T03:37:19"
+               value="2026-11-11T08:21:51"
                data-component="body">
     <br>
-<p>Must be a valid date. Example: <code>2026-11-10T03:37:19</code></p>
+<p>Must be a valid date. Example: <code>2026-11-11T08:21:51</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>note</code></b>&nbsp;&nbsp;
@@ -4383,7 +4383,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     \"from_wallet_id\": \"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",
     \"to_wallet_id\": \"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",
     \"amount\": 17,
-    \"occurred_at\": \"2026-11-10T03:37:19\",
+    \"occurred_at\": \"2026-11-11T08:21:51\",
     \"note\": \"i\"
 }"
 </code></pre></div>
@@ -4404,7 +4404,7 @@ let body = {
     "from_wallet_id": "6ff8f7f6-1eb3-3525-be4a-3932c805afed",
     "to_wallet_id": "6b72fe4a-5b40-307c-bc24-f79acf9a1bb9",
     "amount": 17,
-    "occurred_at": "2026-11-10T03:37:19",
+    "occurred_at": "2026-11-11T08:21:51",
     "note": "i"
 };
 
@@ -4545,10 +4545,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="occurred_at"                data-endpoint="POSTapi-v1-transfers"
-               value="2026-11-10T03:37:19"
+               value="2026-11-11T08:21:51"
                data-component="body">
     <br>
-<p>Must be a valid date. Example: <code>2026-11-10T03:37:19</code></p>
+<p>Must be a valid date. Example: <code>2026-11-11T08:21:51</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>note</code></b>&nbsp;&nbsp;
@@ -4869,7 +4869,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --data "{
     \"name\": \"b\",
-    \"type\": \"ewallet\",
+    \"type\": \"bank\",
     \"initial_balance\": 22
 }"
 </code></pre></div>
@@ -4888,7 +4888,7 @@ const headers = {
 
 let body = {
     "name": "b",
-    "type": "ewallet",
+    "type": "bank",
     "initial_balance": 22
 };
 
@@ -5005,10 +5005,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="type"                data-endpoint="POSTapi-v1-wallets"
-               value="ewallet"
+               value="bank"
                data-component="body">
     <br>
-<p>Example: <code>ewallet</code></p>
+<p>Example: <code>bank</code></p>
 Must be one of:
 <ul style="list-style-type: square;"><li><code>cash</code></li> <li><code>bank</code></li> <li><code>ewallet</code></li></ul>
         </div>
@@ -5201,9 +5201,9 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --data "{
     \"name\": \"b\",
-    \"type\": \"cash\",
+    \"type\": \"ewallet\",
     \"initial_balance\": 22,
-    \"is_archived\": true
+    \"is_archived\": false
 }"
 </code></pre></div>
 
@@ -5221,9 +5221,9 @@ const headers = {
 
 let body = {
     "name": "b",
-    "type": "cash",
+    "type": "ewallet",
     "initial_balance": 22,
-    "is_archived": true
+    "is_archived": false
 };
 
 fetch(url, {
@@ -5356,10 +5356,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="type"                data-endpoint="PUTapi-v1-wallets--id-"
-               value="cash"
+               value="ewallet"
                data-component="body">
     <br>
-<p>Example: <code>cash</code></p>
+<p>Example: <code>ewallet</code></p>
 Must be one of:
 <ul style="list-style-type: square;"><li><code>cash</code></li> <li><code>bank</code></li> <li><code>ewallet</code></li></ul>
         </div>
@@ -5395,7 +5395,7 @@ Must be one of:
             <code>false</code>
         </label>
     <br>
-<p>Example: <code>true</code></p>
+<p>Example: <code>false</code></p>
         </div>
         </form>
 

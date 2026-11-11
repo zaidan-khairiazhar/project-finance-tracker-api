@@ -141,7 +141,7 @@ endpoints:
         name: from
         description: 'Must be a valid date.'
         required: false
-        example: '2026-11-10T03:37:19'
+        example: '2026-11-11T08:21:51'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -152,7 +152,7 @@ endpoints:
         name: to
         description: 'Must be a valid date.'
         required: false
-        example: '2026-11-10T03:37:19'
+        example: '2026-11-11T08:21:51'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -172,8 +172,8 @@ endpoints:
     cleanBodyParameters:
       wallet_id: 6ff8f7f6-1eb3-3525-be4a-3932c805afed
       category_id: 6b72fe4a-5b40-307c-bc24-f79acf9a1bb9
-      from: '2026-11-10T03:37:19'
-      to: '2026-11-10T03:37:19'
+      from: '2026-11-11T08:21:51'
+      to: '2026-11-11T08:21:51'
       q: m
     fileParameters: []
     responses:
@@ -258,7 +258,7 @@ endpoints:
         name: from
         description: 'Must be a valid date.'
         required: false
-        example: '2026-11-10T03:37:19'
+        example: '2026-11-11T08:21:51'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -269,7 +269,7 @@ endpoints:
         name: to
         description: 'Must be a valid date.'
         required: false
-        example: '2026-11-10T03:37:19'
+        example: '2026-11-11T08:21:51'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -300,8 +300,8 @@ endpoints:
     cleanBodyParameters:
       wallet_id: 6ff8f7f6-1eb3-3525-be4a-3932c805afed
       category_id: 6b72fe4a-5b40-307c-bc24-f79acf9a1bb9
-      from: '2026-11-10T03:37:19'
-      to: '2026-11-10T03:37:19'
+      from: '2026-11-11T08:21:51'
+      to: '2026-11-11T08:21:51'
       q: m
       per_page: 15
     fileParameters: []
@@ -376,7 +376,7 @@ endpoints:
         name: type
         description: ''
         required: true
-        example: income
+        example: expense
         type: string
         enumValues:
           - income
@@ -400,7 +400,7 @@ endpoints:
         name: occurred_at
         description: 'Must be a valid date.'
         required: false
-        example: '2026-11-10T03:37:19'
+        example: '2026-11-11T08:21:51'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -420,9 +420,9 @@ endpoints:
     cleanBodyParameters:
       wallet_id: 6ff8f7f6-1eb3-3525-be4a-3932c805afed
       category_id: 6b72fe4a-5b40-307c-bc24-f79acf9a1bb9
-      type: income
+      type: expense
       amount: 17
-      occurred_at: '2026-11-10T03:37:19'
+      occurred_at: '2026-11-11T08:21:51'
       note: i
     fileParameters: []
     responses: []
@@ -582,7 +582,7 @@ endpoints:
         name: occurred_at
         description: 'Must be a valid date.'
         required: false
-        example: '2026-11-10T03:37:19'
+        example: '2026-11-11T08:21:51'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -604,7 +604,7 @@ endpoints:
       category_id: 6b72fe4a-5b40-307c-bc24-f79acf9a1bb9
       type: income
       amount: 17
-      occurred_at: '2026-11-10T03:37:19'
+      occurred_at: '2026-11-11T08:21:51'
       note: i
     fileParameters: []
     responses: []

@@ -224,7 +224,7 @@ endpoints:
         name: from
         description: 'Must be a valid date in the format <code>Y-m-d</code>.'
         required: false
-        example: '2026-11-10'
+        example: '2026-11-11'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -235,15 +235,15 @@ endpoints:
         name: to
         description: 'Must be a valid date in the format <code>Y-m-d</code>.'
         required: false
-        example: '2026-11-10'
+        example: '2026-11-11'
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanBodyParameters:
-      from: '2026-11-10'
-      to: '2026-11-10'
+      from: '2026-11-11'
+      to: '2026-11-11'
     fileParameters: []
     responses:
       -

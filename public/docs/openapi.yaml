@@ -227,7 +227,7 @@ paths:
         in: path
         name: budget_id
         description: 'The ID of the budget.'
-        example: architecto
+        example: 01a1c555-74ef-7231-9d89-498eed980633
         required: true
         schema:
           type: string
@@ -262,7 +262,7 @@ paths:
                 type:
                   type: string
                   description: ''
-                  example: expense
+                  example: income
                   enum:
                     - income
                     - expense
@@ -288,7 +288,7 @@ paths:
                 type:
                   type: string
                   description: ''
-                  example: expense
+                  example: income
                   enum:
                     - income
                     - expense
@@ -553,11 +553,11 @@ paths:
                 from:
                   type: string
                   description: 'Must be a valid date in the format <code>Y-m-d</code>.'
-                  example: '2026-11-10'
+                  example: '2026-11-11'
                 to:
                   type: string
                   description: 'Must be a valid date in the format <code>Y-m-d</code>.'
-                  example: '2026-11-10'
+                  example: '2026-11-11'
   /api/v1/transactions/export:
     get:
       summary: 'Ekspor transaksi ke CSV'
@@ -661,11 +661,11 @@ paths:
                 from:
                   type: string
                   description: 'Must be a valid date.'
-                  example: '2026-11-10T03:37:19'
+                  example: '2026-11-11T08:21:51'
                 to:
                   type: string
                   description: 'Must be a valid date.'
-                  example: '2026-11-10T03:37:19'
+                  example: '2026-11-11T08:21:51'
                 q:
                   type: string
                   description: 'Must not be greater than 100 characters.'
@@ -713,11 +713,11 @@ paths:
                 from:
                   type: string
                   description: 'Must be a valid date.'
-                  example: '2026-11-10T03:37:19'
+                  example: '2026-11-11T08:21:51'
                 to:
                   type: string
                   description: 'Must be a valid date.'
-                  example: '2026-11-10T03:37:19'
+                  example: '2026-11-11T08:21:51'
                 q:
                   type: string
                   description: 'Must not be greater than 100 characters.'
@@ -753,7 +753,7 @@ paths:
                 type:
                   type: string
                   description: ''
-                  example: income
+                  example: expense
                   enum:
                     - income
                     - expense
@@ -764,7 +764,7 @@ paths:
                 occurred_at:
                   type: string
                   description: 'Must be a valid date.'
-                  example: '2026-11-10T03:37:19'
+                  example: '2026-11-11T08:21:51'
                   nullable: true
                 note:
                   type: string
@@ -834,7 +834,7 @@ paths:
                 occurred_at:
                   type: string
                   description: 'Must be a valid date.'
-                  example: '2026-11-10T03:37:19'
+                  example: '2026-11-11T08:21:51'
                 note:
                   type: string
                   description: 'Must not be greater than 255 characters.'
@@ -888,7 +888,7 @@ paths:
                 occurred_at:
                   type: string
                   description: 'Must be a valid date.'
-                  example: '2026-11-10T03:37:19'
+                  example: '2026-11-11T08:21:51'
                   nullable: true
                 note:
                   type: string
@@ -960,7 +960,7 @@ paths:
                 type:
                   type: string
                   description: ''
-                  example: ewallet
+                  example: bank
                   enum:
                     - cash
                     - bank
@@ -1015,7 +1015,7 @@ paths:
                 type:
                   type: string
                   description: ''
-                  example: cash
+                  example: ewallet
                   enum:
                     - cash
                     - bank
@@ -1027,7 +1027,7 @@ paths:
                 is_archived:
                   type: boolean
                   description: ''
-                  example: true
+                  example: false
     delete:
       summary: "Dompet yang sudah punya transaksi hanya diarsipkan (riwayat tetap utuh);\ndompet yang masih kosong benar-benar dihapus (soft delete)."
       operationId: dompetYangSudahPunyaTransaksiHanyaDiarsipkanriwayatTetapUtuhDompetYangMasihKosongBenarBenarDihapussoftDelete
