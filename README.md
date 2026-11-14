@@ -13,6 +13,7 @@ Dibangun dengan Laravel 12, Sanctum, dan PostgreSQL. Klien web ada di repo `fina
 - Dashboard bulanan (pemasukan, pengeluaran, selisih, total saldo, total per kategori).
 - Anggaran bulanan per kategori (`over` jika terpakai > batas, `warning` mulai 80%); anggaran induk menjumlah subkategorinya.
 - Laporan: tren bulanan, perbandingan kategori antar bulan, dan ringkasan per dompet pada rentang tanggal.
+- Transaksi berulang (harian/mingguan/bulanan): aturan membuat transaksi biasa, termasuk kemunculan yang terlewat dengan tanggal yang benar. Dipicu `php artisan recurring:generate` (terjadwal 00:05 WIB, perlu `schedule:run` di cron) dan otomatis saat login. Transaksi yang dihapus tidak dibuat ulang.
 - Ekspor transaksi ke CSV (UTF-8 dengan BOM, waktu WIB, maksimum 50.000 baris).
 
 ## Keputusan desain
@@ -66,4 +67,5 @@ Hasilnya ada di `public/docs/index.html` (buka lewat `http://localhost:8000/docs
 | Dashboard | `GET /dashboard/summary?month=YYYY-MM`, `GET /dashboard/by-category?month=YYYY-MM&type=expense\|income` |
 | Budgets | `GET /budgets?month=YYYY-MM`, `PUT /budgets` (upsert; 201 jika baru, 200 jika diperbarui), `DELETE /budgets/{id}` |
 | Reports | `GET /reports/monthly-trend?months=6\|12`, `GET /reports/category-comparison?months=3..12&type=expense\|income`, `GET /reports/wallets?from=&to=` (maks. 366 hari) |
+| Recurring | `GET\|POST /recurring-rules`, `PATCH\|DELETE /recurring-rules/{id}`, `POST /recurring-rules/run` (jalankan aturan yang jatuh tempo; mengembalikan `{created}`). `frequency` dan `start_date` tidak bisa diubah setelah dibuat. |
 | Export | `GET /transactions/export` (CSV; filter sama seperti daftar transaksi) |

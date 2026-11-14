@@ -10,7 +10,7 @@
     ],
     "info": {
         "name": "Finance Tracker API",
-        "_postman_id": "30a627d3-2c1f-49c5-93dc-660a8f1e6e8f",
+        "_postman_id": "8fa27ae3-0bc3-45e1-bfa9-0eaa2f4cf921",
         "description": "",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
@@ -349,7 +349,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"type\":\"income\"}"
+                            "raw": "{\"type\":\"expense\"}"
                         },
                         "description": ""
                     },
@@ -397,7 +397,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"b\",\"type\":\"income\",\"icon\":\"n\",\"color\":\"#EeDb3B\",\"parent_id\":\"c3b6b42e-3a0f-3935-b28d-cb767f8a2a0a\"}"
+                            "raw": "{\"name\":\"b\",\"type\":\"expense\",\"icon\":\"n\",\"color\":\"#EeDb3B\",\"parent_id\":\"c3b6b42e-3a0f-3935-b28d-cb767f8a2a0a\"}"
                         },
                         "description": ""
                     },
@@ -571,6 +571,179 @@
             ]
         },
         {
+            "name": "Recurring Rules",
+            "description": "\nAturan pemasukan atau pengeluaran berulang (harian, mingguan, bulanan). Pada tanggalnya aturan\notomatis menjadi transaksi biasa; kemunculan yang terlewat disusul dengan tanggal aslinya.",
+            "item": [
+                {
+                    "name": "Jalankan sekarang",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/recurring-rules\/run",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/recurring-rules\/run"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Membuat semua kemunculan yang sudah jatuh tempo untuk user yang sedang masuk."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Daftar aturan berulang",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/recurring-rules",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/recurring-rules"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Diurutkan dari kemunculan berikutnya yang paling dekat. `status` dihitung: active, paused, atau finished."
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Buat aturan berulang",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/recurring-rules",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/recurring-rules"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"wallet_id\":\"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",\"category_id\":\"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",\"type\":\"expense\",\"amount\":17,\"note\":\"i\",\"frequency\":\"daily\",\"start_date\":\"2051-12-07\",\"end_date\":\"2052-12-07\"}"
+                        },
+                        "description": "Jika `start_date` hari ini atau lebih awal (maksimal 366 hari ke belakang), kemunculan yang sudah lewat\nlangsung dibuat."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Ubah aturan",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/recurring-rules\/:rule_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/recurring-rules\/:rule_id",
+                            "variable": [
+                                {
+                                    "id": "rule_id",
+                                    "key": "rule_id",
+                                    "value": "01a1d8d7-d03d-7004-8285-1e6b5522b84e",
+                                    "description": "The ID of the rule."
+                                }
+                            ]
+                        },
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"wallet_id\":\"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",\"category_id\":\"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",\"amount\":17,\"note\":\"i\",\"end_date\":\"2052-12-07\",\"is_active\":false}"
+                        },
+                        "description": "Dompet, kategori, nominal, catatan, `end_date`, dan `is_active` bisa diubah; frekuensi dan `start_date` tidak.\nPerubahan nominal hanya berlaku untuk kemunculan berikutnya. Mengaktifkan kembali aturan memvalidasi ulang\ndompet dan kategori, dan menggeser kemunculan berikutnya ke hari ini atau sesudahnya (masa jeda tidak disusul)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Hapus aturan",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/recurring-rules\/:rule_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/recurring-rules\/:rule_id",
+                            "variable": [
+                                {
+                                    "id": "rule_id",
+                                    "key": "rule_id",
+                                    "value": "01a1d8d7-d03d-7004-8285-1e6b5522b84e",
+                                    "description": "The ID of the rule."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Soft delete. Transaksi yang sudah dibuat tetap ada."
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
             "name": "Reports",
             "description": "\nLaporan dihitung langsung dari transaksi. Bulan menurut Asia\/Jakarta; transfer tidak dihitung.",
             "item": [
@@ -725,7 +898,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"from\":\"2026-11-11\",\"to\":\"2026-11-11\"}"
+                            "raw": "{\"from\":\"2026-11-14\",\"to\":\"2026-11-14\"}"
                         },
                         "description": "Pemasukan, pengeluaran, dan transfer per dompet pada rentang tanggal (Asia\/Jakarta, inklusif),\nserta saldo akhir pada akhir hari `to`. Rentang maksimum 366 hari."
                     },
@@ -816,7 +989,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"wallet_id\":\"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",\"category_id\":\"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",\"from\":\"2026-11-11T08:21:51\",\"to\":\"2026-11-11T08:21:51\",\"q\":\"m\"}"
+                            "raw": "{\"wallet_id\":\"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",\"category_id\":\"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",\"from\":\"2026-11-14T07:11:28\",\"to\":\"2026-11-14T07:11:28\",\"q\":\"m\"}"
                         },
                         "description": "Filter sama seperti daftar transaksi, tanpa paginasi. Berkas UTF-8 dengan BOM, waktu dalam WIB,\nurut dari yang terbaru. Maksimum 50.000 baris (lebih dari itu 422: persempit filter)."
                     },
@@ -864,7 +1037,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"wallet_id\":\"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",\"category_id\":\"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",\"from\":\"2026-11-11T08:21:51\",\"to\":\"2026-11-11T08:21:51\",\"q\":\"m\",\"per_page\":15}"
+                            "raw": "{\"wallet_id\":\"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",\"category_id\":\"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",\"from\":\"2026-11-14T07:11:28\",\"to\":\"2026-11-14T07:11:28\",\"q\":\"m\",\"per_page\":15}"
                         },
                         "description": ""
                     },
@@ -912,7 +1085,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"wallet_id\":\"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",\"category_id\":\"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",\"type\":\"expense\",\"amount\":17,\"occurred_at\":\"2026-11-11T08:21:51\",\"note\":\"i\"}"
+                            "raw": "{\"wallet_id\":\"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",\"category_id\":\"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",\"type\":\"expense\",\"amount\":17,\"occurred_at\":\"2026-11-14T07:11:28\",\"note\":\"i\"}"
                         },
                         "description": ""
                     },
@@ -1001,7 +1174,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"wallet_id\":\"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",\"category_id\":\"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",\"type\":\"income\",\"amount\":17,\"occurred_at\":\"2026-11-11T08:21:51\",\"note\":\"i\"}"
+                            "raw": "{\"wallet_id\":\"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",\"category_id\":\"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",\"type\":\"expense\",\"amount\":17,\"occurred_at\":\"2026-11-14T07:11:28\",\"note\":\"i\"}"
                         },
                         "description": ""
                     },
@@ -1068,7 +1241,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"from_wallet_id\":\"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",\"to_wallet_id\":\"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",\"amount\":17,\"occurred_at\":\"2026-11-11T08:21:51\",\"note\":\"i\"}"
+                            "raw": "{\"from_wallet_id\":\"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",\"to_wallet_id\":\"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",\"amount\":17,\"occurred_at\":\"2026-11-14T07:11:28\",\"note\":\"i\"}"
                         },
                         "description": ""
                     },

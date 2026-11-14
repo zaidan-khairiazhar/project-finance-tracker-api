@@ -20,6 +20,7 @@ class TransactionResource extends JsonResource
             'occurred_at' => $this->occurred_at->copy()->utc()->format('Y-m-d\TH:i:s\Z'),
             'note' => $this->note,
             'transfer_group_id' => $this->transfer_group_id,
+            'recurring_rule_id' => $this->recurring_rule_id,
         ];
     }
 }

@@ -69,7 +69,7 @@ endpoints:
         name: occurred_at
         description: 'Must be a valid date.'
         required: false
-        example: '2026-11-11T08:21:51'
+        example: '2026-11-14T07:11:28'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -90,7 +90,7 @@ endpoints:
       from_wallet_id: 6ff8f7f6-1eb3-3525-be4a-3932c805afed
       to_wallet_id: 6b72fe4a-5b40-307c-bc24-f79acf9a1bb9
       amount: 17
-      occurred_at: '2026-11-11T08:21:51'
+      occurred_at: '2026-11-14T07:11:28'
       note: i
     fileParameters: []
     responses: []

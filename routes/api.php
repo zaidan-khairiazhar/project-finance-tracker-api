@@ -11,6 +11,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\BudgetController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\TransactionExportController;
+use App\Http\Controllers\RecurringRuleController;
 
 Route::get('/', function () {
     return response()->json(['message' => 'Finance API is running.']);
@@ -49,6 +50,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('reports/monthly-trend', [ReportController::class, 'monthlyTrend']);
     Route::get('reports/category-comparison', [ReportController::class, 'categoryComparison']);
     Route::get('reports/wallets', [ReportController::class, 'wallets']);
+
+    // Rute khusus (run) sebelum rute berparameter.
+    Route::post('recurring-rules/run', [RecurringRuleController::class, 'run']);
+    Route::get('recurring-rules', [RecurringRuleController::class, 'index']);
+    Route::post('recurring-rules', [RecurringRuleController::class, 'store']);
+    Route::patch('recurring-rules/{rule}', [RecurringRuleController::class, 'update'])->whereUuid('rule');
+    Route::delete('recurring-rules/{rule}', [RecurringRuleController::class, 'destroy'])->whereUuid('rule');
 
     
 });

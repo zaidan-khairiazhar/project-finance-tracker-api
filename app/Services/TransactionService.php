@@ -58,7 +58,7 @@ class TransactionService
         }
     }
 
-    private function assertCategoryMatches(?string $categoryId, string $type): void
+    public function assertCategoryMatches(?string $categoryId, string $type): void
     {
         if ($categoryId === null) {
             return;

@@ -6,13 +6,16 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use App\Services\RecurringGenerator;
 use App\Services\UserOnboarding;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
+use Throwable;
 
 /**
  * @group Auth
@@ -43,7 +46,7 @@ class AuthController extends Controller
      *
      * @unauthenticated
      */
-    public function login(LoginRequest $request): JsonResponse
+    public function login(LoginRequest $request, RecurringGenerator $recurring): JsonResponse
     {
         $user = User::where('email', $request->validated('email'))->first();
 
@@ -52,6 +55,13 @@ class AuthController extends Controller
             throw ValidationException::withMessages([
                 'email' => ['Email atau kata sandi salah.'],
             ]);
+        }
+
+        // Susul transaksi berulang yang terlewat; kegagalannya tidak boleh menggagalkan login.
+        try {
+            $recurring->catchUp($user);
+        } catch (Throwable $e) {
+            Log::error('Gagal menyusul transaksi berulang saat login.', ['user' => $user->id, 'error' => $e->getMessage()]);
         }
 
         return $this->tokenResponse($user, 200);

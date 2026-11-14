@@ -143,6 +143,28 @@
                             </li>
                                                                         </ul>
                             </ul>
+                    <ul id="tocify-header-recurring-rules" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="recurring-rules">
+                    <a href="#recurring-rules">Recurring Rules</a>
+                </li>
+                                    <ul id="tocify-subheader-recurring-rules" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="recurring-rules-POSTapi-v1-recurring-rules-run">
+                                <a href="#recurring-rules-POSTapi-v1-recurring-rules-run">Jalankan sekarang</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="recurring-rules-GETapi-v1-recurring-rules">
+                                <a href="#recurring-rules-GETapi-v1-recurring-rules">Daftar aturan berulang</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="recurring-rules-POSTapi-v1-recurring-rules">
+                                <a href="#recurring-rules-POSTapi-v1-recurring-rules">Buat aturan berulang</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="recurring-rules-PATCHapi-v1-recurring-rules--rule_id-">
+                                <a href="#recurring-rules-PATCHapi-v1-recurring-rules--rule_id-">Ubah aturan</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="recurring-rules-DELETEapi-v1-recurring-rules--rule_id-">
+                                <a href="#recurring-rules-DELETEapi-v1-recurring-rules--rule_id-">Hapus aturan</a>
+                            </li>
+                                                                        </ul>
+                            </ul>
                     <ul id="tocify-header-reports" class="tocify-header">
                 <li class="tocify-item level-1" data-unique="reports">
                     <a href="#reports">Reports</a>
@@ -229,7 +251,7 @@ dompet yang masih kosong benar-benar dihapus (soft delete).</a>
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: November 11, 2026</li>
+        <li>Last updated: November 14, 2026</li>
     </ul>
 </div>
 
@@ -1463,7 +1485,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"type\": \"income\"
+    \"type\": \"expense\"
 }"
 </code></pre></div>
 
@@ -1480,7 +1502,7 @@ const headers = {
 };
 
 let body = {
-    "type": "income"
+    "type": "expense"
 };
 
 fetch(url, {
@@ -1600,10 +1622,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="type"                data-endpoint="GETapi-v1-categories"
-               value="income"
+               value="expense"
                data-component="body">
     <br>
-<p>Example: <code>income</code></p>
+<p>Example: <code>expense</code></p>
 Must be one of:
 <ul style="list-style-type: square;"><li><code>income</code></li> <li><code>expense</code></li></ul>
         </div>
@@ -1629,7 +1651,7 @@ Must be one of:
     --header "Accept: application/json" \
     --data "{
     \"name\": \"b\",
-    \"type\": \"income\",
+    \"type\": \"expense\",
     \"icon\": \"n\",
     \"color\": \"#EeDb3B\",
     \"parent_id\": \"c3b6b42e-3a0f-3935-b28d-cb767f8a2a0a\"
@@ -1650,7 +1672,7 @@ const headers = {
 
 let body = {
     "name": "b",
-    "type": "income",
+    "type": "expense",
     "icon": "n",
     "color": "#EeDb3B",
     "parent_id": "c3b6b42e-3a0f-3935-b28d-cb767f8a2a0a"
@@ -1769,10 +1791,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="type"                data-endpoint="POSTapi-v1-categories"
-               value="income"
+               value="expense"
                data-component="body">
     <br>
-<p>Example: <code>income</code></p>
+<p>Example: <code>expense</code></p>
 Must be one of:
 <ul style="list-style-type: square;"><li><code>income</code></li> <li><code>expense</code></li></ul>
         </div>
@@ -2447,6 +2469,910 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                         </form>
 
+                <h1 id="recurring-rules">Recurring Rules</h1>
+
+    <p>Aturan pemasukan atau pengeluaran berulang (harian, mingguan, bulanan). Pada tanggalnya aturan
+otomatis menjadi transaksi biasa; kemunculan yang terlewat disusul dengan tanggal aslinya.</p>
+
+                                <h2 id="recurring-rules-POSTapi-v1-recurring-rules-run">Jalankan sekarang</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>Membuat semua kemunculan yang sudah jatuh tempo untuk user yang sedang masuk.</p>
+
+<span id="example-requests-POSTapi-v1-recurring-rules-run">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/v1/recurring-rules/run" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/recurring-rules/run"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+
+fetch(url, {
+    method: "POST",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-recurring-rules-run">
+</span>
+<span id="execution-results-POSTapi-v1-recurring-rules-run" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-recurring-rules-run"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-recurring-rules-run"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-recurring-rules-run" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-recurring-rules-run">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-v1-recurring-rules-run" data-method="POST"
+      data-path="api/v1/recurring-rules/run"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-recurring-rules-run', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-recurring-rules-run"
+                    onclick="tryItOut('POSTapi-v1-recurring-rules-run');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-recurring-rules-run"
+                    onclick="cancelTryOut('POSTapi-v1-recurring-rules-run');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-recurring-rules-run"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/recurring-rules/run</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="POSTapi-v1-recurring-rules-run"
+               value="Bearer {YOUR_AUTH_KEY}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {YOUR_AUTH_KEY}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-v1-recurring-rules-run"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-v1-recurring-rules-run"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        </form>
+
+                    <h2 id="recurring-rules-GETapi-v1-recurring-rules">Daftar aturan berulang</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>Diurutkan dari kemunculan berikutnya yang paling dekat. <code>status</code> dihitung: active, paused, atau finished.</p>
+
+<span id="example-requests-GETapi-v1-recurring-rules">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/v1/recurring-rules" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/recurring-rules"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-v1-recurring-rules">
+            <blockquote>
+            <p>Example response (401):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary style="cursor: pointer;">
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">cache-control: no-cache, private
+content-type: application/json
+access-control-allow-origin: *
+ </code></pre></details>         <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;Unauthenticated.&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-v1-recurring-rules" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-v1-recurring-rules"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-v1-recurring-rules"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi-v1-recurring-rules" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-v1-recurring-rules">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi-v1-recurring-rules" data-method="GET"
+      data-path="api/v1/recurring-rules"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-recurring-rules', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-v1-recurring-rules"
+                    onclick="tryItOut('GETapi-v1-recurring-rules');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-v1-recurring-rules"
+                    onclick="cancelTryOut('GETapi-v1-recurring-rules');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-v1-recurring-rules"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/v1/recurring-rules</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="GETapi-v1-recurring-rules"
+               value="Bearer {YOUR_AUTH_KEY}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {YOUR_AUTH_KEY}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi-v1-recurring-rules"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi-v1-recurring-rules"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        </form>
+
+                    <h2 id="recurring-rules-POSTapi-v1-recurring-rules">Buat aturan berulang</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>Jika <code>start_date</code> hari ini atau lebih awal (maksimal 366 hari ke belakang), kemunculan yang sudah lewat
+langsung dibuat.</p>
+
+<span id="example-requests-POSTapi-v1-recurring-rules">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/v1/recurring-rules" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"wallet_id\": \"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",
+    \"category_id\": \"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",
+    \"type\": \"expense\",
+    \"amount\": 17,
+    \"note\": \"i\",
+    \"frequency\": \"daily\",
+    \"start_date\": \"2051-12-07\",
+    \"end_date\": \"2052-12-07\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/recurring-rules"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "wallet_id": "6ff8f7f6-1eb3-3525-be4a-3932c805afed",
+    "category_id": "6b72fe4a-5b40-307c-bc24-f79acf9a1bb9",
+    "type": "expense",
+    "amount": 17,
+    "note": "i",
+    "frequency": "daily",
+    "start_date": "2051-12-07",
+    "end_date": "2052-12-07"
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-recurring-rules">
+</span>
+<span id="execution-results-POSTapi-v1-recurring-rules" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-recurring-rules"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-recurring-rules"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-recurring-rules" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-recurring-rules">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-v1-recurring-rules" data-method="POST"
+      data-path="api/v1/recurring-rules"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-recurring-rules', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-recurring-rules"
+                    onclick="tryItOut('POSTapi-v1-recurring-rules');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-recurring-rules"
+                    onclick="cancelTryOut('POSTapi-v1-recurring-rules');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-recurring-rules"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/recurring-rules</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="POSTapi-v1-recurring-rules"
+               value="Bearer {YOUR_AUTH_KEY}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {YOUR_AUTH_KEY}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-v1-recurring-rules"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-v1-recurring-rules"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>wallet_id</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="wallet_id"                data-endpoint="POSTapi-v1-recurring-rules"
+               value="6ff8f7f6-1eb3-3525-be4a-3932c805afed"
+               data-component="body">
+    <br>
+<p>Must be a valid UUID. Example: <code>6ff8f7f6-1eb3-3525-be4a-3932c805afed</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>category_id</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="category_id"                data-endpoint="POSTapi-v1-recurring-rules"
+               value="6b72fe4a-5b40-307c-bc24-f79acf9a1bb9"
+               data-component="body">
+    <br>
+<p>Must be a valid UUID. Example: <code>6b72fe4a-5b40-307c-bc24-f79acf9a1bb9</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>type</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="type"                data-endpoint="POSTapi-v1-recurring-rules"
+               value="expense"
+               data-component="body">
+    <br>
+<p>Example: <code>expense</code></p>
+Must be one of:
+<ul style="list-style-type: square;"><li><code>income</code></li> <li><code>expense</code></li></ul>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>amount</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="amount"                data-endpoint="POSTapi-v1-recurring-rules"
+               value="17"
+               data-component="body">
+    <br>
+<p>Must be at least 1. Must not be greater than 9007199254740991. Example: <code>17</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>note</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="note"                data-endpoint="POSTapi-v1-recurring-rules"
+               value="i"
+               data-component="body">
+    <br>
+<p>Must not be greater than 255 characters. Example: <code>i</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>frequency</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="frequency"                data-endpoint="POSTapi-v1-recurring-rules"
+               value="daily"
+               data-component="body">
+    <br>
+<p>Example: <code>daily</code></p>
+Must be one of:
+<ul style="list-style-type: square;"><li><code>daily</code></li> <li><code>weekly</code></li> <li><code>monthly</code></li></ul>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>start_date</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="start_date"                data-endpoint="POSTapi-v1-recurring-rules"
+               value="2051-12-07"
+               data-component="body">
+    <br>
+<p>Must be a valid date in the format <code>Y-m-d</code>. Must be a date after or equal to <code>2025-11-13</code>. Example: <code>2051-12-07</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>end_date</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="end_date"                data-endpoint="POSTapi-v1-recurring-rules"
+               value="2052-12-07"
+               data-component="body">
+    <br>
+<p>Must be a valid date in the format <code>Y-m-d</code>. Must be a date after or equal to <code>start_date</code>. Example: <code>2052-12-07</code></p>
+        </div>
+        </form>
+
+                    <h2 id="recurring-rules-PATCHapi-v1-recurring-rules--rule_id-">Ubah aturan</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>Dompet, kategori, nominal, catatan, <code>end_date</code>, dan <code>is_active</code> bisa diubah; frekuensi dan <code>start_date</code> tidak.
+Perubahan nominal hanya berlaku untuk kemunculan berikutnya. Mengaktifkan kembali aturan memvalidasi ulang
+dompet dan kategori, dan menggeser kemunculan berikutnya ke hari ini atau sesudahnya (masa jeda tidak disusul).</p>
+
+<span id="example-requests-PATCHapi-v1-recurring-rules--rule_id-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request PATCH \
+    "http://localhost:8000/api/v1/recurring-rules/01a1d8d7-d03d-7004-8285-1e6b5522b84e" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"wallet_id\": \"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",
+    \"category_id\": \"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",
+    \"amount\": 17,
+    \"note\": \"i\",
+    \"end_date\": \"2052-12-07\",
+    \"is_active\": false
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/recurring-rules/01a1d8d7-d03d-7004-8285-1e6b5522b84e"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "wallet_id": "6ff8f7f6-1eb3-3525-be4a-3932c805afed",
+    "category_id": "6b72fe4a-5b40-307c-bc24-f79acf9a1bb9",
+    "amount": 17,
+    "note": "i",
+    "end_date": "2052-12-07",
+    "is_active": false
+};
+
+fetch(url, {
+    method: "PATCH",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-PATCHapi-v1-recurring-rules--rule_id-">
+</span>
+<span id="execution-results-PATCHapi-v1-recurring-rules--rule_id-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-PATCHapi-v1-recurring-rules--rule_id-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-PATCHapi-v1-recurring-rules--rule_id-"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-PATCHapi-v1-recurring-rules--rule_id-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-PATCHapi-v1-recurring-rules--rule_id-">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-PATCHapi-v1-recurring-rules--rule_id-" data-method="PATCH"
+      data-path="api/v1/recurring-rules/{rule_id}"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('PATCHapi-v1-recurring-rules--rule_id-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-PATCHapi-v1-recurring-rules--rule_id-"
+                    onclick="tryItOut('PATCHapi-v1-recurring-rules--rule_id-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-PATCHapi-v1-recurring-rules--rule_id-"
+                    onclick="cancelTryOut('PATCHapi-v1-recurring-rules--rule_id-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-PATCHapi-v1-recurring-rules--rule_id-"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-purple">PATCH</small>
+            <b><code>api/v1/recurring-rules/{rule_id}</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="PATCHapi-v1-recurring-rules--rule_id-"
+               value="Bearer {YOUR_AUTH_KEY}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {YOUR_AUTH_KEY}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="PATCHapi-v1-recurring-rules--rule_id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="PATCHapi-v1-recurring-rules--rule_id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>rule_id</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="rule_id"                data-endpoint="PATCHapi-v1-recurring-rules--rule_id-"
+               value="01a1d8d7-d03d-7004-8285-1e6b5522b84e"
+               data-component="url">
+    <br>
+<p>The ID of the rule. Example: <code>01a1d8d7-d03d-7004-8285-1e6b5522b84e</code></p>
+            </div>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>wallet_id</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="wallet_id"                data-endpoint="PATCHapi-v1-recurring-rules--rule_id-"
+               value="6ff8f7f6-1eb3-3525-be4a-3932c805afed"
+               data-component="body">
+    <br>
+<p>Must be a valid UUID. Example: <code>6ff8f7f6-1eb3-3525-be4a-3932c805afed</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>category_id</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="category_id"                data-endpoint="PATCHapi-v1-recurring-rules--rule_id-"
+               value="6b72fe4a-5b40-307c-bc24-f79acf9a1bb9"
+               data-component="body">
+    <br>
+<p>Must be a valid UUID. Example: <code>6b72fe4a-5b40-307c-bc24-f79acf9a1bb9</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>amount</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="amount"                data-endpoint="PATCHapi-v1-recurring-rules--rule_id-"
+               value="17"
+               data-component="body">
+    <br>
+<p>Must be at least 1. Must not be greater than 9007199254740991. Example: <code>17</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>note</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="note"                data-endpoint="PATCHapi-v1-recurring-rules--rule_id-"
+               value="i"
+               data-component="body">
+    <br>
+<p>Must not be greater than 255 characters. Example: <code>i</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>end_date</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="end_date"                data-endpoint="PATCHapi-v1-recurring-rules--rule_id-"
+               value="2052-12-07"
+               data-component="body">
+    <br>
+<p>Must be a valid date in the format <code>Y-m-d</code>. Must be a date after or equal to <code>2026-11-14</code>. Example: <code>2052-12-07</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>is_active</code></b>&nbsp;&nbsp;
+<small>boolean</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <label data-endpoint="PATCHapi-v1-recurring-rules--rule_id-" style="display: none">
+            <input type="radio" name="is_active"
+                   value="true"
+                   data-endpoint="PATCHapi-v1-recurring-rules--rule_id-"
+                   data-component="body"             >
+            <code>true</code>
+        </label>
+        <label data-endpoint="PATCHapi-v1-recurring-rules--rule_id-" style="display: none">
+            <input type="radio" name="is_active"
+                   value="false"
+                   data-endpoint="PATCHapi-v1-recurring-rules--rule_id-"
+                   data-component="body"             >
+            <code>false</code>
+        </label>
+    <br>
+<p>Example: <code>false</code></p>
+        </div>
+        </form>
+
+                    <h2 id="recurring-rules-DELETEapi-v1-recurring-rules--rule_id-">Hapus aturan</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>Soft delete. Transaksi yang sudah dibuat tetap ada.</p>
+
+<span id="example-requests-DELETEapi-v1-recurring-rules--rule_id-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request DELETE \
+    "http://localhost:8000/api/v1/recurring-rules/01a1d8d7-d03d-7004-8285-1e6b5522b84e" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/recurring-rules/01a1d8d7-d03d-7004-8285-1e6b5522b84e"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+
+fetch(url, {
+    method: "DELETE",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-DELETEapi-v1-recurring-rules--rule_id-">
+</span>
+<span id="execution-results-DELETEapi-v1-recurring-rules--rule_id-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-DELETEapi-v1-recurring-rules--rule_id-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-DELETEapi-v1-recurring-rules--rule_id-"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-DELETEapi-v1-recurring-rules--rule_id-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-DELETEapi-v1-recurring-rules--rule_id-">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-DELETEapi-v1-recurring-rules--rule_id-" data-method="DELETE"
+      data-path="api/v1/recurring-rules/{rule_id}"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('DELETEapi-v1-recurring-rules--rule_id-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-DELETEapi-v1-recurring-rules--rule_id-"
+                    onclick="tryItOut('DELETEapi-v1-recurring-rules--rule_id-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-DELETEapi-v1-recurring-rules--rule_id-"
+                    onclick="cancelTryOut('DELETEapi-v1-recurring-rules--rule_id-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-DELETEapi-v1-recurring-rules--rule_id-"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-red">DELETE</small>
+            <b><code>api/v1/recurring-rules/{rule_id}</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="DELETEapi-v1-recurring-rules--rule_id-"
+               value="Bearer {YOUR_AUTH_KEY}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {YOUR_AUTH_KEY}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="DELETEapi-v1-recurring-rules--rule_id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="DELETEapi-v1-recurring-rules--rule_id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>rule_id</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="rule_id"                data-endpoint="DELETEapi-v1-recurring-rules--rule_id-"
+               value="01a1d8d7-d03d-7004-8285-1e6b5522b84e"
+               data-component="url">
+    <br>
+<p>The ID of the rule. Example: <code>01a1d8d7-d03d-7004-8285-1e6b5522b84e</code></p>
+            </div>
+                    </form>
+
                 <h1 id="reports">Reports</h1>
 
     <p>Laporan dihitung langsung dari transaksi. Bulan menurut Asia/Jakarta; transfer tidak dihitung.</p>
@@ -2853,8 +3779,8 @@ serta saldo akhir pada akhir hari <code>to</code>. Rentang maksimum 366 hari.</p
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"from\": \"2026-11-11\",
-    \"to\": \"2026-11-11\"
+    \"from\": \"2026-11-14\",
+    \"to\": \"2026-11-14\"
 }"
 </code></pre></div>
 
@@ -2878,8 +3804,8 @@ const headers = {
 };
 
 let body = {
-    "from": "2026-11-11",
-    "to": "2026-11-11"
+    "from": "2026-11-14",
+    "to": "2026-11-14"
 };
 
 fetch(url, {
@@ -3024,10 +3950,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="from"                data-endpoint="GETapi-v1-reports-wallets"
-               value="2026-11-11"
+               value="2026-11-14"
                data-component="body">
     <br>
-<p>Must be a valid date in the format <code>Y-m-d</code>. Example: <code>2026-11-11</code></p>
+<p>Must be a valid date in the format <code>Y-m-d</code>. Example: <code>2026-11-14</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>to</code></b>&nbsp;&nbsp;
@@ -3036,10 +3962,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="to"                data-endpoint="GETapi-v1-reports-wallets"
-               value="2026-11-11"
+               value="2026-11-14"
                data-component="body">
     <br>
-<p>Must be a valid date in the format <code>Y-m-d</code>. Example: <code>2026-11-11</code></p>
+<p>Must be a valid date in the format <code>Y-m-d</code>. Example: <code>2026-11-14</code></p>
         </div>
         </form>
 
@@ -3069,8 +3995,8 @@ urut dari yang terbaru. Maksimum 50.000 baris (lebih dari itu 422: persempit fil
     --data "{
     \"wallet_id\": \"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",
     \"category_id\": \"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",
-    \"from\": \"2026-11-11T08:21:51\",
-    \"to\": \"2026-11-11T08:21:51\",
+    \"from\": \"2026-11-14T07:11:28\",
+    \"to\": \"2026-11-14T07:11:28\",
     \"q\": \"m\"
 }"
 </code></pre></div>
@@ -3101,8 +4027,8 @@ const headers = {
 let body = {
     "wallet_id": "6ff8f7f6-1eb3-3525-be4a-3932c805afed",
     "category_id": "6b72fe4a-5b40-307c-bc24-f79acf9a1bb9",
-    "from": "2026-11-11T08:21:51",
-    "to": "2026-11-11T08:21:51",
+    "from": "2026-11-14T07:11:28",
+    "to": "2026-11-14T07:11:28",
     "q": "m"
 };
 
@@ -3332,10 +4258,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="from"                data-endpoint="GETapi-v1-transactions-export"
-               value="2026-11-11T08:21:51"
+               value="2026-11-14T07:11:28"
                data-component="body">
     <br>
-<p>Must be a valid date. Example: <code>2026-11-11T08:21:51</code></p>
+<p>Must be a valid date. Example: <code>2026-11-14T07:11:28</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>to</code></b>&nbsp;&nbsp;
@@ -3344,10 +4270,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="to"                data-endpoint="GETapi-v1-transactions-export"
-               value="2026-11-11T08:21:51"
+               value="2026-11-14T07:11:28"
                data-component="body">
     <br>
-<p>Must be a valid date. Example: <code>2026-11-11T08:21:51</code></p>
+<p>Must be a valid date. Example: <code>2026-11-14T07:11:28</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>q</code></b>&nbsp;&nbsp;
@@ -3384,8 +4310,8 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --data "{
     \"wallet_id\": \"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",
     \"category_id\": \"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",
-    \"from\": \"2026-11-11T08:21:51\",
-    \"to\": \"2026-11-11T08:21:51\",
+    \"from\": \"2026-11-14T07:11:28\",
+    \"to\": \"2026-11-14T07:11:28\",
     \"q\": \"m\",
     \"per_page\": 15
 }"
@@ -3406,8 +4332,8 @@ const headers = {
 let body = {
     "wallet_id": "6ff8f7f6-1eb3-3525-be4a-3932c805afed",
     "category_id": "6b72fe4a-5b40-307c-bc24-f79acf9a1bb9",
-    "from": "2026-11-11T08:21:51",
-    "to": "2026-11-11T08:21:51",
+    "from": "2026-11-14T07:11:28",
+    "to": "2026-11-14T07:11:28",
     "q": "m",
     "per_page": 15
 };
@@ -3565,10 +4491,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="from"                data-endpoint="GETapi-v1-transactions"
-               value="2026-11-11T08:21:51"
+               value="2026-11-14T07:11:28"
                data-component="body">
     <br>
-<p>Must be a valid date. Example: <code>2026-11-11T08:21:51</code></p>
+<p>Must be a valid date. Example: <code>2026-11-14T07:11:28</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>to</code></b>&nbsp;&nbsp;
@@ -3577,10 +4503,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="to"                data-endpoint="GETapi-v1-transactions"
-               value="2026-11-11T08:21:51"
+               value="2026-11-14T07:11:28"
                data-component="body">
     <br>
-<p>Must be a valid date. Example: <code>2026-11-11T08:21:51</code></p>
+<p>Must be a valid date. Example: <code>2026-11-14T07:11:28</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>q</code></b>&nbsp;&nbsp;
@@ -3631,7 +4557,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     \"category_id\": \"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",
     \"type\": \"expense\",
     \"amount\": 17,
-    \"occurred_at\": \"2026-11-11T08:21:51\",
+    \"occurred_at\": \"2026-11-14T07:11:28\",
     \"note\": \"i\"
 }"
 </code></pre></div>
@@ -3653,7 +4579,7 @@ let body = {
     "category_id": "6b72fe4a-5b40-307c-bc24-f79acf9a1bb9",
     "type": "expense",
     "amount": 17,
-    "occurred_at": "2026-11-11T08:21:51",
+    "occurred_at": "2026-11-14T07:11:28",
     "note": "i"
 };
 
@@ -3808,10 +4734,10 @@ Must be one of:
  &nbsp;
                 <input type="text" style="display: none"
                               name="occurred_at"                data-endpoint="POSTapi-v1-transactions"
-               value="2026-11-11T08:21:51"
+               value="2026-11-14T07:11:28"
                data-component="body">
     <br>
-<p>Must be a valid date. Example: <code>2026-11-11T08:21:51</code></p>
+<p>Must be a valid date. Example: <code>2026-11-14T07:11:28</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>note</code></b>&nbsp;&nbsp;
@@ -4003,9 +4929,9 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --data "{
     \"wallet_id\": \"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",
     \"category_id\": \"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",
-    \"type\": \"income\",
+    \"type\": \"expense\",
     \"amount\": 17,
-    \"occurred_at\": \"2026-11-11T08:21:51\",
+    \"occurred_at\": \"2026-11-14T07:11:28\",
     \"note\": \"i\"
 }"
 </code></pre></div>
@@ -4025,9 +4951,9 @@ const headers = {
 let body = {
     "wallet_id": "6ff8f7f6-1eb3-3525-be4a-3932c805afed",
     "category_id": "6b72fe4a-5b40-307c-bc24-f79acf9a1bb9",
-    "type": "income",
+    "type": "expense",
     "amount": 17,
-    "occurred_at": "2026-11-11T08:21:51",
+    "occurred_at": "2026-11-14T07:11:28",
     "note": "i"
 };
 
@@ -4173,10 +5099,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="type"                data-endpoint="PUTapi-v1-transactions--id-"
-               value="income"
+               value="expense"
                data-component="body">
     <br>
-<p>Example: <code>income</code></p>
+<p>Example: <code>expense</code></p>
 Must be one of:
 <ul style="list-style-type: square;"><li><code>income</code></li> <li><code>expense</code></li></ul>
         </div>
@@ -4199,10 +5125,10 @@ Must be one of:
  &nbsp;
                 <input type="text" style="display: none"
                               name="occurred_at"                data-endpoint="PUTapi-v1-transactions--id-"
-               value="2026-11-11T08:21:51"
+               value="2026-11-14T07:11:28"
                data-component="body">
     <br>
-<p>Must be a valid date. Example: <code>2026-11-11T08:21:51</code></p>
+<p>Must be a valid date. Example: <code>2026-11-14T07:11:28</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>note</code></b>&nbsp;&nbsp;
@@ -4383,7 +5309,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     \"from_wallet_id\": \"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",
     \"to_wallet_id\": \"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",
     \"amount\": 17,
-    \"occurred_at\": \"2026-11-11T08:21:51\",
+    \"occurred_at\": \"2026-11-14T07:11:28\",
     \"note\": \"i\"
 }"
 </code></pre></div>
@@ -4404,7 +5330,7 @@ let body = {
     "from_wallet_id": "6ff8f7f6-1eb3-3525-be4a-3932c805afed",
     "to_wallet_id": "6b72fe4a-5b40-307c-bc24-f79acf9a1bb9",
     "amount": 17,
-    "occurred_at": "2026-11-11T08:21:51",
+    "occurred_at": "2026-11-14T07:11:28",
     "note": "i"
 };
 
@@ -4545,10 +5471,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="occurred_at"                data-endpoint="POSTapi-v1-transfers"
-               value="2026-11-11T08:21:51"
+               value="2026-11-14T07:11:28"
                data-component="body">
     <br>
-<p>Must be a valid date. Example: <code>2026-11-11T08:21:51</code></p>
+<p>Must be a valid date. Example: <code>2026-11-14T07:11:28</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>note</code></b>&nbsp;&nbsp;

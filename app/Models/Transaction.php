@@ -20,6 +20,7 @@ class Transaction extends Model
     protected $fillable = [
         'wallet_id', 'category_id', 'type', 'amount',
         'occurred_at', 'note', 'transfer_group_id',
+        'recurring_rule_id', 'occurrence_date',
     ];
 
     protected function casts(): array
@@ -28,6 +29,7 @@ class Transaction extends Model
             'type' => TransactionType::class,
             'amount' => 'integer',
             'occurred_at' => 'datetime',
+            'occurrence_date' => 'date',
         ];
     }
 

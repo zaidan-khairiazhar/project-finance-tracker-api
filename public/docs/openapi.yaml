@@ -23,6 +23,9 @@ tags:
     name: Dashboard
     description: "\nRingkasan bulanan; batas bulan dihitung di zona Asia/Jakarta."
   -
+    name: 'Recurring Rules'
+    description: "\nAturan pemasukan atau pengeluaran berulang (harian, mingguan, bulanan). Pada tanggalnya aturan\notomatis menjadi transaksi biasa; kemunculan yang terlewat disusul dengan tanggal aslinya."
+  -
     name: Reports
     description: "\nLaporan dihitung langsung dari transaksi. Bulan menurut Asia/Jakarta; transfer tidak dihitung."
   -
@@ -262,7 +265,7 @@ paths:
                 type:
                   type: string
                   description: ''
-                  example: income
+                  example: expense
                   enum:
                     - income
                     - expense
@@ -288,7 +291,7 @@ paths:
                 type:
                   type: string
                   description: ''
-                  example: income
+                  example: expense
                   enum:
                     - income
                     - expense
@@ -404,6 +407,159 @@ paths:
                     example: Unauthenticated.
       tags:
         - Dashboard
+  /api/v1/recurring-rules/run:
+    post:
+      summary: 'Jalankan sekarang'
+      operationId: jalankanSekarang
+      description: 'Membuat semua kemunculan yang sudah jatuh tempo untuk user yang sedang masuk.'
+      parameters: []
+      responses: {}
+      tags:
+        - 'Recurring Rules'
+  /api/v1/recurring-rules:
+    get:
+      summary: 'Daftar aturan berulang'
+      operationId: daftarAturanBerulang
+      description: 'Diurutkan dari kemunculan berikutnya yang paling dekat. `status` dihitung: active, paused, atau finished.'
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - 'Recurring Rules'
+    post:
+      summary: 'Buat aturan berulang'
+      operationId: buatAturanBerulang
+      description: "Jika `start_date` hari ini atau lebih awal (maksimal 366 hari ke belakang), kemunculan yang sudah lewat\nlangsung dibuat."
+      parameters: []
+      responses: {}
+      tags:
+        - 'Recurring Rules'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                wallet_id:
+                  type: string
+                  description: 'Must be a valid UUID.'
+                  example: 6ff8f7f6-1eb3-3525-be4a-3932c805afed
+                category_id:
+                  type: string
+                  description: 'Must be a valid UUID.'
+                  example: 6b72fe4a-5b40-307c-bc24-f79acf9a1bb9
+                  nullable: true
+                type:
+                  type: string
+                  description: ''
+                  example: expense
+                  enum:
+                    - income
+                    - expense
+                amount:
+                  type: integer
+                  description: 'Must be at least 1. Must not be greater than 9007199254740991.'
+                  example: 17
+                note:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: i
+                  nullable: true
+                frequency:
+                  type: string
+                  description: ''
+                  example: daily
+                  enum:
+                    - daily
+                    - weekly
+                    - monthly
+                start_date:
+                  type: string
+                  description: 'Must be a valid date in the format <code>Y-m-d</code>. Must be a date after or equal to <code>2025-11-13</code>.'
+                  example: '2051-12-07'
+                end_date:
+                  type: string
+                  description: 'Must be a valid date in the format <code>Y-m-d</code>. Must be a date after or equal to <code>start_date</code>.'
+                  example: '2052-12-07'
+                  nullable: true
+              required:
+                - wallet_id
+                - type
+                - amount
+                - frequency
+                - start_date
+  '/api/v1/recurring-rules/{rule_id}':
+    patch:
+      summary: 'Ubah aturan'
+      operationId: ubahAturan
+      description: "Dompet, kategori, nominal, catatan, `end_date`, dan `is_active` bisa diubah; frekuensi dan `start_date` tidak.\nPerubahan nominal hanya berlaku untuk kemunculan berikutnya. Mengaktifkan kembali aturan memvalidasi ulang\ndompet dan kategori, dan menggeser kemunculan berikutnya ke hari ini atau sesudahnya (masa jeda tidak disusul)."
+      parameters: []
+      responses: {}
+      tags:
+        - 'Recurring Rules'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                wallet_id:
+                  type: string
+                  description: 'Must be a valid UUID.'
+                  example: 6ff8f7f6-1eb3-3525-be4a-3932c805afed
+                category_id:
+                  type: string
+                  description: 'Must be a valid UUID.'
+                  example: 6b72fe4a-5b40-307c-bc24-f79acf9a1bb9
+                  nullable: true
+                amount:
+                  type: integer
+                  description: 'Must be at least 1. Must not be greater than 9007199254740991.'
+                  example: 17
+                note:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: i
+                  nullable: true
+                end_date:
+                  type: string
+                  description: 'Must be a valid date in the format <code>Y-m-d</code>. Must be a date after or equal to <code>2026-11-14</code>.'
+                  example: '2052-12-07'
+                  nullable: true
+                is_active:
+                  type: boolean
+                  description: ''
+                  example: false
+    delete:
+      summary: 'Hapus aturan'
+      operationId: hapusAturan
+      description: 'Soft delete. Transaksi yang sudah dibuat tetap ada.'
+      parameters: []
+      responses: {}
+      tags:
+        - 'Recurring Rules'
+    parameters:
+      -
+        in: path
+        name: rule_id
+        description: 'The ID of the rule.'
+        example: 01a1d8d7-d03d-7004-8285-1e6b5522b84e
+        required: true
+        schema:
+          type: string
   /api/v1/reports/monthly-trend:
     get:
       summary: 'Tren bulanan'
@@ -553,11 +709,11 @@ paths:
                 from:
                   type: string
                   description: 'Must be a valid date in the format <code>Y-m-d</code>.'
-                  example: '2026-11-11'
+                  example: '2026-11-14'
                 to:
                   type: string
                   description: 'Must be a valid date in the format <code>Y-m-d</code>.'
-                  example: '2026-11-11'
+                  example: '2026-11-14'
   /api/v1/transactions/export:
     get:
       summary: 'Ekspor transaksi ke CSV'
@@ -661,11 +817,11 @@ paths:
                 from:
                   type: string
                   description: 'Must be a valid date.'
-                  example: '2026-11-11T08:21:51'
+                  example: '2026-11-14T07:11:28'
                 to:
                   type: string
                   description: 'Must be a valid date.'
-                  example: '2026-11-11T08:21:51'
+                  example: '2026-11-14T07:11:28'
                 q:
                   type: string
                   description: 'Must not be greater than 100 characters.'
@@ -713,11 +869,11 @@ paths:
                 from:
                   type: string
                   description: 'Must be a valid date.'
-                  example: '2026-11-11T08:21:51'
+                  example: '2026-11-14T07:11:28'
                 to:
                   type: string
                   description: 'Must be a valid date.'
-                  example: '2026-11-11T08:21:51'
+                  example: '2026-11-14T07:11:28'
                 q:
                   type: string
                   description: 'Must not be greater than 100 characters.'
@@ -764,7 +920,7 @@ paths:
                 occurred_at:
                   type: string
                   description: 'Must be a valid date.'
-                  example: '2026-11-11T08:21:51'
+                  example: '2026-11-14T07:11:28'
                   nullable: true
                 note:
                   type: string
@@ -823,7 +979,7 @@ paths:
                 type:
                   type: string
                   description: ''
-                  example: income
+                  example: expense
                   enum:
                     - income
                     - expense
@@ -834,7 +990,7 @@ paths:
                 occurred_at:
                   type: string
                   description: 'Must be a valid date.'
-                  example: '2026-11-11T08:21:51'
+                  example: '2026-11-14T07:11:28'
                 note:
                   type: string
                   description: 'Must not be greater than 255 characters.'
@@ -888,7 +1044,7 @@ paths:
                 occurred_at:
                   type: string
                   description: 'Must be a valid date.'
-                  example: '2026-11-11T08:21:51'
+                  example: '2026-11-14T07:11:28'
                   nullable: true
                 note:
                   type: string

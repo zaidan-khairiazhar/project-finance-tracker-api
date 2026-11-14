@@ -34,7 +34,7 @@ endpoints:
         name: type
         description: ''
         required: false
-        example: income
+        example: expense
         type: string
         enumValues:
           - income
@@ -43,7 +43,7 @@ endpoints:
         nullable: false
         deprecated: false
     cleanBodyParameters:
-      type: income
+      type: expense
     fileParameters: []
     responses:
       -
@@ -105,7 +105,7 @@ endpoints:
         name: type
         description: ''
         required: true
-        example: income
+        example: expense
         type: string
         enumValues:
           - income
@@ -148,7 +148,7 @@ endpoints:
         deprecated: false
     cleanBodyParameters:
       name: b
-      type: income
+      type: expense
       icon: 'n'
       color: '#EeDb3B'
       parent_id: c3b6b42e-3a0f-3935-b28d-cb767f8a2a0a
