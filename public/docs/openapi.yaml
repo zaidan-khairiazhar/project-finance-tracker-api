@@ -23,6 +23,9 @@ tags:
     name: Dashboard
     description: "\nRingkasan bulanan; batas bulan dihitung di zona Asia/Jakarta."
   -
+    name: Goals
+    description: "\nTarget tabungan. Progres tidak disimpan: dihitung setiap kali dibaca dari saldo satu dompet.\nSatu dompet hanya bisa dipakai satu target aktif."
+  -
     name: 'Recurring Rules'
     description: "\nAturan pemasukan atau pengeluaran berulang (harian, mingguan, bulanan). Pada tanggalnya aturan\notomatis menjadi transaksi biasa; kemunculan yang terlewat disusul dengan tanggal aslinya."
   -
@@ -407,6 +410,113 @@ paths:
                     example: Unauthenticated.
       tags:
         - Dashboard
+  /api/v1/goals:
+    get:
+      summary: 'Daftar target'
+      operationId: daftarTarget
+      description: "Diurutkan dari tenggat terdekat (target tanpa tenggat di akhir), lalu waktu dibuat. `current_amount` adalah saldo\ndompet saat ini; `status` dihitung: in_progress, reached, atau overdue. `wallet_status` bernilai ok, archived,\natau deleted. `monthly_needed` hanya terisi untuk target in_progress yang punya tenggat."
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Goals
+    post:
+      summary: 'Buat target'
+      operationId: buatTarget
+      description: "Dompet harus milik user, tidak diarsipkan, dan belum dipakai target lain. `deadline` opsional (Y-m-d) dan\ntidak boleh sebelum hari ini (Asia/Jakarta)."
+      parameters: []
+      responses: {}
+      tags:
+        - Goals
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Must not be greater than 100 characters.'
+                  example: b
+                wallet_id:
+                  type: string
+                  description: 'Must be a valid UUID.'
+                  example: a4855dc5-0acb-33c3-b921-f4291f719ca0
+                target_amount:
+                  type: integer
+                  description: 'Must be at least 1. Must not be greater than 9007199254740991.'
+                  example: 16
+                deadline:
+                  type: string
+                  description: 'Must be a valid date in the format <code>Y-m-d</code>. Must be a date after or equal to <code>2026-11-19</code>.'
+                  example: '2052-12-12'
+                  nullable: true
+              required:
+                - name
+                - wallet_id
+                - target_amount
+  '/api/v1/goals/{goal_id}':
+    patch:
+      summary: 'Ubah target'
+      operationId: ubahTarget
+      description: "Nama, dompet, nominal, dan tenggat bisa diubah. Tenggat hanya divalidasi bila nilainya berubah, sehingga target\nyang sudah lewat tenggat tetap bisa diganti namanya. Dompet baru harus bisa dipakai dan belum punya target."
+      parameters: []
+      responses: {}
+      tags:
+        - Goals
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Must not be greater than 100 characters.'
+                  example: b
+                wallet_id:
+                  type: string
+                  description: 'Must be a valid UUID.'
+                  example: a4855dc5-0acb-33c3-b921-f4291f719ca0
+                target_amount:
+                  type: integer
+                  description: 'Must be at least 1. Must not be greater than 9007199254740991.'
+                  example: 16
+                deadline:
+                  type: string
+                  description: 'Must be a valid date in the format <code>Y-m-d</code>. Must be a date after or equal to <code>2026-11-19</code>.'
+                  example: '2052-12-12'
+                  nullable: true
+    delete:
+      summary: 'Hapus target'
+      operationId: hapusTarget
+      description: 'Soft delete. Dompetnya bebas dipakai target baru.'
+      parameters: []
+      responses: {}
+      tags:
+        - Goals
+    parameters:
+      -
+        in: path
+        name: goal_id
+        description: 'The ID of the goal.'
+        example: architecto
+        required: true
+        schema:
+          type: string
   /api/v1/recurring-rules/run:
     post:
       summary: 'Jalankan sekarang'
@@ -487,12 +597,12 @@ paths:
                     - monthly
                 start_date:
                   type: string
-                  description: 'Must be a valid date in the format <code>Y-m-d</code>. Must be a date after or equal to <code>2025-11-13</code>.'
-                  example: '2051-12-07'
+                  description: 'Must be a valid date in the format <code>Y-m-d</code>. Must be a date after or equal to <code>2025-11-18</code>.'
+                  example: '2051-12-12'
                 end_date:
                   type: string
                   description: 'Must be a valid date in the format <code>Y-m-d</code>. Must be a date after or equal to <code>start_date</code>.'
-                  example: '2052-12-07'
+                  example: '2052-12-12'
                   nullable: true
               required:
                 - wallet_id
@@ -536,8 +646,8 @@ paths:
                   nullable: true
                 end_date:
                   type: string
-                  description: 'Must be a valid date in the format <code>Y-m-d</code>. Must be a date after or equal to <code>2026-11-14</code>.'
-                  example: '2052-12-07'
+                  description: 'Must be a valid date in the format <code>Y-m-d</code>. Must be a date after or equal to <code>2026-11-19</code>.'
+                  example: '2052-12-12'
                   nullable: true
                 is_active:
                   type: boolean
@@ -709,11 +819,11 @@ paths:
                 from:
                   type: string
                   description: 'Must be a valid date in the format <code>Y-m-d</code>.'
-                  example: '2026-11-14'
+                  example: '2026-11-19'
                 to:
                   type: string
                   description: 'Must be a valid date in the format <code>Y-m-d</code>.'
-                  example: '2026-11-14'
+                  example: '2026-11-19'
   /api/v1/transactions/export:
     get:
       summary: 'Ekspor transaksi ke CSV'
@@ -817,11 +927,11 @@ paths:
                 from:
                   type: string
                   description: 'Must be a valid date.'
-                  example: '2026-11-14T07:11:28'
+                  example: '2026-11-19T13:17:17'
                 to:
                   type: string
                   description: 'Must be a valid date.'
-                  example: '2026-11-14T07:11:28'
+                  example: '2026-11-19T13:17:17'
                 q:
                   type: string
                   description: 'Must not be greater than 100 characters.'
@@ -869,11 +979,11 @@ paths:
                 from:
                   type: string
                   description: 'Must be a valid date.'
-                  example: '2026-11-14T07:11:28'
+                  example: '2026-11-19T13:17:17'
                 to:
                   type: string
                   description: 'Must be a valid date.'
-                  example: '2026-11-14T07:11:28'
+                  example: '2026-11-19T13:17:17'
                 q:
                   type: string
                   description: 'Must not be greater than 100 characters.'
@@ -920,7 +1030,7 @@ paths:
                 occurred_at:
                   type: string
                   description: 'Must be a valid date.'
-                  example: '2026-11-14T07:11:28'
+                  example: '2026-11-19T13:17:18'
                   nullable: true
                 note:
                   type: string
@@ -990,7 +1100,7 @@ paths:
                 occurred_at:
                   type: string
                   description: 'Must be a valid date.'
-                  example: '2026-11-14T07:11:28'
+                  example: '2026-11-19T13:17:18'
                 note:
                   type: string
                   description: 'Must not be greater than 255 characters.'
@@ -1044,7 +1154,7 @@ paths:
                 occurred_at:
                   type: string
                   description: 'Must be a valid date.'
-                  example: '2026-11-14T07:11:28'
+                  example: '2026-11-19T13:17:18'
                   nullable: true
                 note:
                   type: string
@@ -1171,7 +1281,7 @@ paths:
                 type:
                   type: string
                   description: ''
-                  example: ewallet
+                  example: bank
                   enum:
                     - cash
                     - bank

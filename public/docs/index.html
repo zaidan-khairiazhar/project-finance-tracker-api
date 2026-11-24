@@ -143,6 +143,25 @@
                             </li>
                                                                         </ul>
                             </ul>
+                    <ul id="tocify-header-goals" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="goals">
+                    <a href="#goals">Goals</a>
+                </li>
+                                    <ul id="tocify-subheader-goals" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="goals-GETapi-v1-goals">
+                                <a href="#goals-GETapi-v1-goals">Daftar target</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="goals-POSTapi-v1-goals">
+                                <a href="#goals-POSTapi-v1-goals">Buat target</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="goals-PATCHapi-v1-goals--goal_id-">
+                                <a href="#goals-PATCHapi-v1-goals--goal_id-">Ubah target</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="goals-DELETEapi-v1-goals--goal_id-">
+                                <a href="#goals-DELETEapi-v1-goals--goal_id-">Hapus target</a>
+                            </li>
+                                                                        </ul>
+                            </ul>
                     <ul id="tocify-header-recurring-rules" class="tocify-header">
                 <li class="tocify-item level-1" data-unique="recurring-rules">
                     <a href="#recurring-rules">Recurring Rules</a>
@@ -251,7 +270,7 @@ dompet yang masih kosong benar-benar dihapus (soft delete).</a>
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: November 14, 2026</li>
+        <li>Last updated: November 19, 2026</li>
     </ul>
 </div>
 
@@ -2469,6 +2488,687 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                         </form>
 
+                <h1 id="goals">Goals</h1>
+
+    <p>Target tabungan. Progres tidak disimpan: dihitung setiap kali dibaca dari saldo satu dompet.
+Satu dompet hanya bisa dipakai satu target aktif.</p>
+
+                                <h2 id="goals-GETapi-v1-goals">Daftar target</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>Diurutkan dari tenggat terdekat (target tanpa tenggat di akhir), lalu waktu dibuat. <code>current_amount</code> adalah saldo
+dompet saat ini; <code>status</code> dihitung: in_progress, reached, atau overdue. <code>wallet_status</code> bernilai ok, archived,
+atau deleted. <code>monthly_needed</code> hanya terisi untuk target in_progress yang punya tenggat.</p>
+
+<span id="example-requests-GETapi-v1-goals">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/v1/goals" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/goals"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-v1-goals">
+            <blockquote>
+            <p>Example response (401):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary style="cursor: pointer;">
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">cache-control: no-cache, private
+content-type: application/json
+access-control-allow-origin: *
+ </code></pre></details>         <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;Unauthenticated.&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-v1-goals" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-v1-goals"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-v1-goals"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi-v1-goals" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-v1-goals">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi-v1-goals" data-method="GET"
+      data-path="api/v1/goals"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-goals', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-v1-goals"
+                    onclick="tryItOut('GETapi-v1-goals');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-v1-goals"
+                    onclick="cancelTryOut('GETapi-v1-goals');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-v1-goals"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/v1/goals</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="GETapi-v1-goals"
+               value="Bearer {YOUR_AUTH_KEY}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {YOUR_AUTH_KEY}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi-v1-goals"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi-v1-goals"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        </form>
+
+                    <h2 id="goals-POSTapi-v1-goals">Buat target</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>Dompet harus milik user, tidak diarsipkan, dan belum dipakai target lain. <code>deadline</code> opsional (Y-m-d) dan
+tidak boleh sebelum hari ini (Asia/Jakarta).</p>
+
+<span id="example-requests-POSTapi-v1-goals">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/v1/goals" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"name\": \"b\",
+    \"wallet_id\": \"a4855dc5-0acb-33c3-b921-f4291f719ca0\",
+    \"target_amount\": 16,
+    \"deadline\": \"2052-12-12\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/goals"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "name": "b",
+    "wallet_id": "a4855dc5-0acb-33c3-b921-f4291f719ca0",
+    "target_amount": 16,
+    "deadline": "2052-12-12"
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-goals">
+</span>
+<span id="execution-results-POSTapi-v1-goals" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-goals"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-goals"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-goals" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-goals">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-v1-goals" data-method="POST"
+      data-path="api/v1/goals"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-goals', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-goals"
+                    onclick="tryItOut('POSTapi-v1-goals');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-goals"
+                    onclick="cancelTryOut('POSTapi-v1-goals');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-goals"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/goals</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="POSTapi-v1-goals"
+               value="Bearer {YOUR_AUTH_KEY}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {YOUR_AUTH_KEY}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-v1-goals"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-v1-goals"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>name</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="name"                data-endpoint="POSTapi-v1-goals"
+               value="b"
+               data-component="body">
+    <br>
+<p>Must not be greater than 100 characters. Example: <code>b</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>wallet_id</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="wallet_id"                data-endpoint="POSTapi-v1-goals"
+               value="a4855dc5-0acb-33c3-b921-f4291f719ca0"
+               data-component="body">
+    <br>
+<p>Must be a valid UUID. Example: <code>a4855dc5-0acb-33c3-b921-f4291f719ca0</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>target_amount</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="target_amount"                data-endpoint="POSTapi-v1-goals"
+               value="16"
+               data-component="body">
+    <br>
+<p>Must be at least 1. Must not be greater than 9007199254740991. Example: <code>16</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>deadline</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="deadline"                data-endpoint="POSTapi-v1-goals"
+               value="2052-12-12"
+               data-component="body">
+    <br>
+<p>Must be a valid date in the format <code>Y-m-d</code>. Must be a date after or equal to <code>2026-11-19</code>. Example: <code>2052-12-12</code></p>
+        </div>
+        </form>
+
+                    <h2 id="goals-PATCHapi-v1-goals--goal_id-">Ubah target</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>Nama, dompet, nominal, dan tenggat bisa diubah. Tenggat hanya divalidasi bila nilainya berubah, sehingga target
+yang sudah lewat tenggat tetap bisa diganti namanya. Dompet baru harus bisa dipakai dan belum punya target.</p>
+
+<span id="example-requests-PATCHapi-v1-goals--goal_id-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request PATCH \
+    "http://localhost:8000/api/v1/goals/architecto" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"name\": \"b\",
+    \"wallet_id\": \"a4855dc5-0acb-33c3-b921-f4291f719ca0\",
+    \"target_amount\": 16,
+    \"deadline\": \"2052-12-12\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/goals/architecto"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "name": "b",
+    "wallet_id": "a4855dc5-0acb-33c3-b921-f4291f719ca0",
+    "target_amount": 16,
+    "deadline": "2052-12-12"
+};
+
+fetch(url, {
+    method: "PATCH",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-PATCHapi-v1-goals--goal_id-">
+</span>
+<span id="execution-results-PATCHapi-v1-goals--goal_id-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-PATCHapi-v1-goals--goal_id-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-PATCHapi-v1-goals--goal_id-"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-PATCHapi-v1-goals--goal_id-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-PATCHapi-v1-goals--goal_id-">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-PATCHapi-v1-goals--goal_id-" data-method="PATCH"
+      data-path="api/v1/goals/{goal_id}"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('PATCHapi-v1-goals--goal_id-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-PATCHapi-v1-goals--goal_id-"
+                    onclick="tryItOut('PATCHapi-v1-goals--goal_id-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-PATCHapi-v1-goals--goal_id-"
+                    onclick="cancelTryOut('PATCHapi-v1-goals--goal_id-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-PATCHapi-v1-goals--goal_id-"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-purple">PATCH</small>
+            <b><code>api/v1/goals/{goal_id}</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="PATCHapi-v1-goals--goal_id-"
+               value="Bearer {YOUR_AUTH_KEY}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {YOUR_AUTH_KEY}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="PATCHapi-v1-goals--goal_id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="PATCHapi-v1-goals--goal_id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>goal_id</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="goal_id"                data-endpoint="PATCHapi-v1-goals--goal_id-"
+               value="architecto"
+               data-component="url">
+    <br>
+<p>The ID of the goal. Example: <code>architecto</code></p>
+            </div>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>name</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="name"                data-endpoint="PATCHapi-v1-goals--goal_id-"
+               value="b"
+               data-component="body">
+    <br>
+<p>Must not be greater than 100 characters. Example: <code>b</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>wallet_id</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="wallet_id"                data-endpoint="PATCHapi-v1-goals--goal_id-"
+               value="a4855dc5-0acb-33c3-b921-f4291f719ca0"
+               data-component="body">
+    <br>
+<p>Must be a valid UUID. Example: <code>a4855dc5-0acb-33c3-b921-f4291f719ca0</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>target_amount</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="target_amount"                data-endpoint="PATCHapi-v1-goals--goal_id-"
+               value="16"
+               data-component="body">
+    <br>
+<p>Must be at least 1. Must not be greater than 9007199254740991. Example: <code>16</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>deadline</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="deadline"                data-endpoint="PATCHapi-v1-goals--goal_id-"
+               value="2052-12-12"
+               data-component="body">
+    <br>
+<p>Must be a valid date in the format <code>Y-m-d</code>. Must be a date after or equal to <code>2026-11-19</code>. Example: <code>2052-12-12</code></p>
+        </div>
+        </form>
+
+                    <h2 id="goals-DELETEapi-v1-goals--goal_id-">Hapus target</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>Soft delete. Dompetnya bebas dipakai target baru.</p>
+
+<span id="example-requests-DELETEapi-v1-goals--goal_id-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request DELETE \
+    "http://localhost:8000/api/v1/goals/architecto" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/goals/architecto"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+
+fetch(url, {
+    method: "DELETE",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-DELETEapi-v1-goals--goal_id-">
+</span>
+<span id="execution-results-DELETEapi-v1-goals--goal_id-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-DELETEapi-v1-goals--goal_id-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-DELETEapi-v1-goals--goal_id-"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-DELETEapi-v1-goals--goal_id-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-DELETEapi-v1-goals--goal_id-">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-DELETEapi-v1-goals--goal_id-" data-method="DELETE"
+      data-path="api/v1/goals/{goal_id}"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('DELETEapi-v1-goals--goal_id-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-DELETEapi-v1-goals--goal_id-"
+                    onclick="tryItOut('DELETEapi-v1-goals--goal_id-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-DELETEapi-v1-goals--goal_id-"
+                    onclick="cancelTryOut('DELETEapi-v1-goals--goal_id-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-DELETEapi-v1-goals--goal_id-"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-red">DELETE</small>
+            <b><code>api/v1/goals/{goal_id}</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="DELETEapi-v1-goals--goal_id-"
+               value="Bearer {YOUR_AUTH_KEY}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {YOUR_AUTH_KEY}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="DELETEapi-v1-goals--goal_id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="DELETEapi-v1-goals--goal_id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>goal_id</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="goal_id"                data-endpoint="DELETEapi-v1-goals--goal_id-"
+               value="architecto"
+               data-component="url">
+    <br>
+<p>The ID of the goal. Example: <code>architecto</code></p>
+            </div>
+                    </form>
+
                 <h1 id="recurring-rules">Recurring Rules</h1>
 
     <p>Aturan pemasukan atau pengeluaran berulang (harian, mingguan, bulanan). Pada tanggalnya aturan
@@ -2768,8 +3468,8 @@ langsung dibuat.</p>
     \"amount\": 17,
     \"note\": \"i\",
     \"frequency\": \"daily\",
-    \"start_date\": \"2051-12-07\",
-    \"end_date\": \"2052-12-07\"
+    \"start_date\": \"2051-12-12\",
+    \"end_date\": \"2052-12-12\"
 }"
 </code></pre></div>
 
@@ -2792,8 +3492,8 @@ let body = {
     "amount": 17,
     "note": "i",
     "frequency": "daily",
-    "start_date": "2051-12-07",
-    "end_date": "2052-12-07"
+    "start_date": "2051-12-12",
+    "end_date": "2052-12-12"
 };
 
 fetch(url, {
@@ -2973,10 +3673,10 @@ Must be one of:
  &nbsp;
                 <input type="text" style="display: none"
                               name="start_date"                data-endpoint="POSTapi-v1-recurring-rules"
-               value="2051-12-07"
+               value="2051-12-12"
                data-component="body">
     <br>
-<p>Must be a valid date in the format <code>Y-m-d</code>. Must be a date after or equal to <code>2025-11-13</code>. Example: <code>2051-12-07</code></p>
+<p>Must be a valid date in the format <code>Y-m-d</code>. Must be a date after or equal to <code>2025-11-18</code>. Example: <code>2051-12-12</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>end_date</code></b>&nbsp;&nbsp;
@@ -2985,10 +3685,10 @@ Must be one of:
  &nbsp;
                 <input type="text" style="display: none"
                               name="end_date"                data-endpoint="POSTapi-v1-recurring-rules"
-               value="2052-12-07"
+               value="2052-12-12"
                data-component="body">
     <br>
-<p>Must be a valid date in the format <code>Y-m-d</code>. Must be a date after or equal to <code>start_date</code>. Example: <code>2052-12-07</code></p>
+<p>Must be a valid date in the format <code>Y-m-d</code>. Must be a date after or equal to <code>start_date</code>. Example: <code>2052-12-12</code></p>
         </div>
         </form>
 
@@ -3017,7 +3717,7 @@ dompet dan kategori, dan menggeser kemunculan berikutnya ke hari ini atau sesuda
     \"category_id\": \"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",
     \"amount\": 17,
     \"note\": \"i\",
-    \"end_date\": \"2052-12-07\",
+    \"end_date\": \"2052-12-12\",
     \"is_active\": false
 }"
 </code></pre></div>
@@ -3039,7 +3739,7 @@ let body = {
     "category_id": "6b72fe4a-5b40-307c-bc24-f79acf9a1bb9",
     "amount": 17,
     "note": "i",
-    "end_date": "2052-12-07",
+    "end_date": "2052-12-12",
     "is_active": false
 };
 
@@ -3205,10 +3905,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="end_date"                data-endpoint="PATCHapi-v1-recurring-rules--rule_id-"
-               value="2052-12-07"
+               value="2052-12-12"
                data-component="body">
     <br>
-<p>Must be a valid date in the format <code>Y-m-d</code>. Must be a date after or equal to <code>2026-11-14</code>. Example: <code>2052-12-07</code></p>
+<p>Must be a valid date in the format <code>Y-m-d</code>. Must be a date after or equal to <code>2026-11-19</code>. Example: <code>2052-12-12</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>is_active</code></b>&nbsp;&nbsp;
@@ -3779,8 +4479,8 @@ serta saldo akhir pada akhir hari <code>to</code>. Rentang maksimum 366 hari.</p
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"from\": \"2026-11-14\",
-    \"to\": \"2026-11-14\"
+    \"from\": \"2026-11-19\",
+    \"to\": \"2026-11-19\"
 }"
 </code></pre></div>
 
@@ -3804,8 +4504,8 @@ const headers = {
 };
 
 let body = {
-    "from": "2026-11-14",
-    "to": "2026-11-14"
+    "from": "2026-11-19",
+    "to": "2026-11-19"
 };
 
 fetch(url, {
@@ -3950,10 +4650,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="from"                data-endpoint="GETapi-v1-reports-wallets"
-               value="2026-11-14"
+               value="2026-11-19"
                data-component="body">
     <br>
-<p>Must be a valid date in the format <code>Y-m-d</code>. Example: <code>2026-11-14</code></p>
+<p>Must be a valid date in the format <code>Y-m-d</code>. Example: <code>2026-11-19</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>to</code></b>&nbsp;&nbsp;
@@ -3962,10 +4662,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="to"                data-endpoint="GETapi-v1-reports-wallets"
-               value="2026-11-14"
+               value="2026-11-19"
                data-component="body">
     <br>
-<p>Must be a valid date in the format <code>Y-m-d</code>. Example: <code>2026-11-14</code></p>
+<p>Must be a valid date in the format <code>Y-m-d</code>. Example: <code>2026-11-19</code></p>
         </div>
         </form>
 
@@ -3995,8 +4695,8 @@ urut dari yang terbaru. Maksimum 50.000 baris (lebih dari itu 422: persempit fil
     --data "{
     \"wallet_id\": \"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",
     \"category_id\": \"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",
-    \"from\": \"2026-11-14T07:11:28\",
-    \"to\": \"2026-11-14T07:11:28\",
+    \"from\": \"2026-11-19T13:17:17\",
+    \"to\": \"2026-11-19T13:17:17\",
     \"q\": \"m\"
 }"
 </code></pre></div>
@@ -4027,8 +4727,8 @@ const headers = {
 let body = {
     "wallet_id": "6ff8f7f6-1eb3-3525-be4a-3932c805afed",
     "category_id": "6b72fe4a-5b40-307c-bc24-f79acf9a1bb9",
-    "from": "2026-11-14T07:11:28",
-    "to": "2026-11-14T07:11:28",
+    "from": "2026-11-19T13:17:17",
+    "to": "2026-11-19T13:17:17",
     "q": "m"
 };
 
@@ -4258,10 +4958,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="from"                data-endpoint="GETapi-v1-transactions-export"
-               value="2026-11-14T07:11:28"
+               value="2026-11-19T13:17:17"
                data-component="body">
     <br>
-<p>Must be a valid date. Example: <code>2026-11-14T07:11:28</code></p>
+<p>Must be a valid date. Example: <code>2026-11-19T13:17:17</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>to</code></b>&nbsp;&nbsp;
@@ -4270,10 +4970,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="to"                data-endpoint="GETapi-v1-transactions-export"
-               value="2026-11-14T07:11:28"
+               value="2026-11-19T13:17:17"
                data-component="body">
     <br>
-<p>Must be a valid date. Example: <code>2026-11-14T07:11:28</code></p>
+<p>Must be a valid date. Example: <code>2026-11-19T13:17:17</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>q</code></b>&nbsp;&nbsp;
@@ -4310,8 +5010,8 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --data "{
     \"wallet_id\": \"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",
     \"category_id\": \"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",
-    \"from\": \"2026-11-14T07:11:28\",
-    \"to\": \"2026-11-14T07:11:28\",
+    \"from\": \"2026-11-19T13:17:17\",
+    \"to\": \"2026-11-19T13:17:17\",
     \"q\": \"m\",
     \"per_page\": 15
 }"
@@ -4332,8 +5032,8 @@ const headers = {
 let body = {
     "wallet_id": "6ff8f7f6-1eb3-3525-be4a-3932c805afed",
     "category_id": "6b72fe4a-5b40-307c-bc24-f79acf9a1bb9",
-    "from": "2026-11-14T07:11:28",
-    "to": "2026-11-14T07:11:28",
+    "from": "2026-11-19T13:17:17",
+    "to": "2026-11-19T13:17:17",
     "q": "m",
     "per_page": 15
 };
@@ -4491,10 +5191,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="from"                data-endpoint="GETapi-v1-transactions"
-               value="2026-11-14T07:11:28"
+               value="2026-11-19T13:17:17"
                data-component="body">
     <br>
-<p>Must be a valid date. Example: <code>2026-11-14T07:11:28</code></p>
+<p>Must be a valid date. Example: <code>2026-11-19T13:17:17</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>to</code></b>&nbsp;&nbsp;
@@ -4503,10 +5203,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="to"                data-endpoint="GETapi-v1-transactions"
-               value="2026-11-14T07:11:28"
+               value="2026-11-19T13:17:17"
                data-component="body">
     <br>
-<p>Must be a valid date. Example: <code>2026-11-14T07:11:28</code></p>
+<p>Must be a valid date. Example: <code>2026-11-19T13:17:17</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>q</code></b>&nbsp;&nbsp;
@@ -4557,7 +5257,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     \"category_id\": \"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",
     \"type\": \"expense\",
     \"amount\": 17,
-    \"occurred_at\": \"2026-11-14T07:11:28\",
+    \"occurred_at\": \"2026-11-19T13:17:18\",
     \"note\": \"i\"
 }"
 </code></pre></div>
@@ -4579,7 +5279,7 @@ let body = {
     "category_id": "6b72fe4a-5b40-307c-bc24-f79acf9a1bb9",
     "type": "expense",
     "amount": 17,
-    "occurred_at": "2026-11-14T07:11:28",
+    "occurred_at": "2026-11-19T13:17:18",
     "note": "i"
 };
 
@@ -4734,10 +5434,10 @@ Must be one of:
  &nbsp;
                 <input type="text" style="display: none"
                               name="occurred_at"                data-endpoint="POSTapi-v1-transactions"
-               value="2026-11-14T07:11:28"
+               value="2026-11-19T13:17:18"
                data-component="body">
     <br>
-<p>Must be a valid date. Example: <code>2026-11-14T07:11:28</code></p>
+<p>Must be a valid date. Example: <code>2026-11-19T13:17:18</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>note</code></b>&nbsp;&nbsp;
@@ -4931,7 +5631,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     \"category_id\": \"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",
     \"type\": \"expense\",
     \"amount\": 17,
-    \"occurred_at\": \"2026-11-14T07:11:28\",
+    \"occurred_at\": \"2026-11-19T13:17:18\",
     \"note\": \"i\"
 }"
 </code></pre></div>
@@ -4953,7 +5653,7 @@ let body = {
     "category_id": "6b72fe4a-5b40-307c-bc24-f79acf9a1bb9",
     "type": "expense",
     "amount": 17,
-    "occurred_at": "2026-11-14T07:11:28",
+    "occurred_at": "2026-11-19T13:17:18",
     "note": "i"
 };
 
@@ -5125,10 +5825,10 @@ Must be one of:
  &nbsp;
                 <input type="text" style="display: none"
                               name="occurred_at"                data-endpoint="PUTapi-v1-transactions--id-"
-               value="2026-11-14T07:11:28"
+               value="2026-11-19T13:17:18"
                data-component="body">
     <br>
-<p>Must be a valid date. Example: <code>2026-11-14T07:11:28</code></p>
+<p>Must be a valid date. Example: <code>2026-11-19T13:17:18</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>note</code></b>&nbsp;&nbsp;
@@ -5309,7 +6009,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     \"from_wallet_id\": \"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",
     \"to_wallet_id\": \"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",
     \"amount\": 17,
-    \"occurred_at\": \"2026-11-14T07:11:28\",
+    \"occurred_at\": \"2026-11-19T13:17:18\",
     \"note\": \"i\"
 }"
 </code></pre></div>
@@ -5330,7 +6030,7 @@ let body = {
     "from_wallet_id": "6ff8f7f6-1eb3-3525-be4a-3932c805afed",
     "to_wallet_id": "6b72fe4a-5b40-307c-bc24-f79acf9a1bb9",
     "amount": 17,
-    "occurred_at": "2026-11-14T07:11:28",
+    "occurred_at": "2026-11-19T13:17:18",
     "note": "i"
 };
 
@@ -5471,10 +6171,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="occurred_at"                data-endpoint="POSTapi-v1-transfers"
-               value="2026-11-14T07:11:28"
+               value="2026-11-19T13:17:18"
                data-component="body">
     <br>
-<p>Must be a valid date. Example: <code>2026-11-14T07:11:28</code></p>
+<p>Must be a valid date. Example: <code>2026-11-19T13:17:18</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>note</code></b>&nbsp;&nbsp;
@@ -6127,7 +6827,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --data "{
     \"name\": \"b\",
-    \"type\": \"ewallet\",
+    \"type\": \"bank\",
     \"initial_balance\": 22,
     \"is_archived\": false
 }"
@@ -6147,7 +6847,7 @@ const headers = {
 
 let body = {
     "name": "b",
-    "type": "ewallet",
+    "type": "bank",
     "initial_balance": 22,
     "is_archived": false
 };
@@ -6282,10 +6982,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="type"                data-endpoint="PUTapi-v1-wallets--id-"
-               value="ewallet"
+               value="bank"
                data-component="body">
     <br>
-<p>Example: <code>ewallet</code></p>
+<p>Example: <code>bank</code></p>
 Must be one of:
 <ul style="list-style-type: square;"><li><code>cash</code></li> <li><code>bank</code></li> <li><code>ewallet</code></li></ul>
         </div>

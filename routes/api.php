@@ -12,6 +12,7 @@ use App\Http\Controllers\BudgetController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\TransactionExportController;
 use App\Http\Controllers\RecurringRuleController;
+use App\Http\Controllers\GoalController;
 
 Route::get('/', function () {
     return response()->json(['message' => 'Finance API is running.']);
@@ -57,6 +58,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('recurring-rules', [RecurringRuleController::class, 'store']);
     Route::patch('recurring-rules/{rule}', [RecurringRuleController::class, 'update'])->whereUuid('rule');
     Route::delete('recurring-rules/{rule}', [RecurringRuleController::class, 'destroy'])->whereUuid('rule');
+
+    Route::get('goals', [GoalController::class, 'index']);
+    Route::post('goals', [GoalController::class, 'store']);
+    Route::patch('goals/{goal}', [GoalController::class, 'update'])->whereUuid('goal');
+    Route::delete('goals/{goal}', [GoalController::class, 'destroy'])->whereUuid('goal');
 
     
 });

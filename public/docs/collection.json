@@ -10,7 +10,7 @@
     ],
     "info": {
         "name": "Finance Tracker API",
-        "_postman_id": "8fa27ae3-0bc3-45e1-bfa9-0eaa2f4cf921",
+        "_postman_id": "50bdf2c4-0929-4204-bce9-5dd81c9d1617",
         "description": "",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
@@ -571,6 +571,154 @@
             ]
         },
         {
+            "name": "Goals",
+            "description": "\nTarget tabungan. Progres tidak disimpan: dihitung setiap kali dibaca dari saldo satu dompet.\nSatu dompet hanya bisa dipakai satu target aktif.",
+            "item": [
+                {
+                    "name": "Daftar target",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/goals",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/goals"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Diurutkan dari tenggat terdekat (target tanpa tenggat di akhir), lalu waktu dibuat. `current_amount` adalah saldo\ndompet saat ini; `status` dihitung: in_progress, reached, atau overdue. `wallet_status` bernilai ok, archived,\natau deleted. `monthly_needed` hanya terisi untuk target in_progress yang punya tenggat."
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Buat target",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/goals",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/goals"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"b\",\"wallet_id\":\"a4855dc5-0acb-33c3-b921-f4291f719ca0\",\"target_amount\":16,\"deadline\":\"2052-12-12\"}"
+                        },
+                        "description": "Dompet harus milik user, tidak diarsipkan, dan belum dipakai target lain. `deadline` opsional (Y-m-d) dan\ntidak boleh sebelum hari ini (Asia\/Jakarta)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Ubah target",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/goals\/:goal_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/goals\/:goal_id",
+                            "variable": [
+                                {
+                                    "id": "goal_id",
+                                    "key": "goal_id",
+                                    "value": "architecto",
+                                    "description": "The ID of the goal."
+                                }
+                            ]
+                        },
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"b\",\"wallet_id\":\"a4855dc5-0acb-33c3-b921-f4291f719ca0\",\"target_amount\":16,\"deadline\":\"2052-12-12\"}"
+                        },
+                        "description": "Nama, dompet, nominal, dan tenggat bisa diubah. Tenggat hanya divalidasi bila nilainya berubah, sehingga target\nyang sudah lewat tenggat tetap bisa diganti namanya. Dompet baru harus bisa dipakai dan belum punya target."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Hapus target",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/goals\/:goal_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/goals\/:goal_id",
+                            "variable": [
+                                {
+                                    "id": "goal_id",
+                                    "key": "goal_id",
+                                    "value": "architecto",
+                                    "description": "The ID of the goal."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Soft delete. Dompetnya bebas dipakai target baru."
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
             "name": "Recurring Rules",
             "description": "\nAturan pemasukan atau pengeluaran berulang (harian, mingguan, bulanan). Pada tanggalnya aturan\notomatis menjadi transaksi biasa; kemunculan yang terlewat disusul dengan tanggal aslinya.",
             "item": [
@@ -666,7 +814,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"wallet_id\":\"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",\"category_id\":\"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",\"type\":\"expense\",\"amount\":17,\"note\":\"i\",\"frequency\":\"daily\",\"start_date\":\"2051-12-07\",\"end_date\":\"2052-12-07\"}"
+                            "raw": "{\"wallet_id\":\"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",\"category_id\":\"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",\"type\":\"expense\",\"amount\":17,\"note\":\"i\",\"frequency\":\"daily\",\"start_date\":\"2051-12-12\",\"end_date\":\"2052-12-12\"}"
                         },
                         "description": "Jika `start_date` hari ini atau lebih awal (maksimal 366 hari ke belakang), kemunculan yang sudah lewat\nlangsung dibuat."
                     },
@@ -702,7 +850,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"wallet_id\":\"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",\"category_id\":\"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",\"amount\":17,\"note\":\"i\",\"end_date\":\"2052-12-07\",\"is_active\":false}"
+                            "raw": "{\"wallet_id\":\"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",\"category_id\":\"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",\"amount\":17,\"note\":\"i\",\"end_date\":\"2052-12-12\",\"is_active\":false}"
                         },
                         "description": "Dompet, kategori, nominal, catatan, `end_date`, dan `is_active` bisa diubah; frekuensi dan `start_date` tidak.\nPerubahan nominal hanya berlaku untuk kemunculan berikutnya. Mengaktifkan kembali aturan memvalidasi ulang\ndompet dan kategori, dan menggeser kemunculan berikutnya ke hari ini atau sesudahnya (masa jeda tidak disusul)."
                     },
@@ -898,7 +1046,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"from\":\"2026-11-14\",\"to\":\"2026-11-14\"}"
+                            "raw": "{\"from\":\"2026-11-19\",\"to\":\"2026-11-19\"}"
                         },
                         "description": "Pemasukan, pengeluaran, dan transfer per dompet pada rentang tanggal (Asia\/Jakarta, inklusif),\nserta saldo akhir pada akhir hari `to`. Rentang maksimum 366 hari."
                     },
@@ -989,7 +1137,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"wallet_id\":\"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",\"category_id\":\"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",\"from\":\"2026-11-14T07:11:28\",\"to\":\"2026-11-14T07:11:28\",\"q\":\"m\"}"
+                            "raw": "{\"wallet_id\":\"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",\"category_id\":\"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",\"from\":\"2026-11-19T13:17:17\",\"to\":\"2026-11-19T13:17:17\",\"q\":\"m\"}"
                         },
                         "description": "Filter sama seperti daftar transaksi, tanpa paginasi. Berkas UTF-8 dengan BOM, waktu dalam WIB,\nurut dari yang terbaru. Maksimum 50.000 baris (lebih dari itu 422: persempit filter)."
                     },
@@ -1037,7 +1185,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"wallet_id\":\"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",\"category_id\":\"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",\"from\":\"2026-11-14T07:11:28\",\"to\":\"2026-11-14T07:11:28\",\"q\":\"m\",\"per_page\":15}"
+                            "raw": "{\"wallet_id\":\"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",\"category_id\":\"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",\"from\":\"2026-11-19T13:17:17\",\"to\":\"2026-11-19T13:17:17\",\"q\":\"m\",\"per_page\":15}"
                         },
                         "description": ""
                     },
@@ -1085,7 +1233,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"wallet_id\":\"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",\"category_id\":\"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",\"type\":\"expense\",\"amount\":17,\"occurred_at\":\"2026-11-14T07:11:28\",\"note\":\"i\"}"
+                            "raw": "{\"wallet_id\":\"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",\"category_id\":\"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",\"type\":\"expense\",\"amount\":17,\"occurred_at\":\"2026-11-19T13:17:18\",\"note\":\"i\"}"
                         },
                         "description": ""
                     },
@@ -1174,7 +1322,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"wallet_id\":\"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",\"category_id\":\"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",\"type\":\"expense\",\"amount\":17,\"occurred_at\":\"2026-11-14T07:11:28\",\"note\":\"i\"}"
+                            "raw": "{\"wallet_id\":\"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",\"category_id\":\"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",\"type\":\"expense\",\"amount\":17,\"occurred_at\":\"2026-11-19T13:17:18\",\"note\":\"i\"}"
                         },
                         "description": ""
                     },
@@ -1241,7 +1389,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"from_wallet_id\":\"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",\"to_wallet_id\":\"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",\"amount\":17,\"occurred_at\":\"2026-11-14T07:11:28\",\"note\":\"i\"}"
+                            "raw": "{\"from_wallet_id\":\"6ff8f7f6-1eb3-3525-be4a-3932c805afed\",\"to_wallet_id\":\"6b72fe4a-5b40-307c-bc24-f79acf9a1bb9\",\"amount\":17,\"occurred_at\":\"2026-11-19T13:17:18\",\"note\":\"i\"}"
                         },
                         "description": ""
                     },
@@ -1442,7 +1590,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"b\",\"type\":\"ewallet\",\"initial_balance\":22,\"is_archived\":false}"
+                            "raw": "{\"name\":\"b\",\"type\":\"bank\",\"initial_balance\":22,\"is_archived\":false}"
                         },
                         "description": ""
                     },

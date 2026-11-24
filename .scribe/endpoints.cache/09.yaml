@@ -194,9 +194,9 @@ endpoints:
       start_date:
         custom: []
         name: start_date
-        description: 'Must be a valid date in the format <code>Y-m-d</code>. Must be a date after or equal to <code>2025-11-13</code>.'
+        description: 'Must be a valid date in the format <code>Y-m-d</code>. Must be a date after or equal to <code>2025-11-18</code>.'
         required: true
-        example: '2051-12-07'
+        example: '2051-12-12'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -207,7 +207,7 @@ endpoints:
         name: end_date
         description: 'Must be a valid date in the format <code>Y-m-d</code>. Must be a date after or equal to <code>start_date</code>.'
         required: false
-        example: '2052-12-07'
+        example: '2052-12-12'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -220,8 +220,8 @@ endpoints:
       amount: 17
       note: i
       frequency: daily
-      start_date: '2051-12-07'
-      end_date: '2052-12-07'
+      start_date: '2051-12-12'
+      end_date: '2052-12-12'
     fileParameters: []
     responses: []
     responseFields: []
@@ -321,9 +321,9 @@ endpoints:
       end_date:
         custom: []
         name: end_date
-        description: 'Must be a valid date in the format <code>Y-m-d</code>. Must be a date after or equal to <code>2026-11-14</code>.'
+        description: 'Must be a valid date in the format <code>Y-m-d</code>. Must be a date after or equal to <code>2026-11-19</code>.'
         required: false
-        example: '2052-12-07'
+        example: '2052-12-12'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -345,7 +345,7 @@ endpoints:
       category_id: 6b72fe4a-5b40-307c-bc24-f79acf9a1bb9
       amount: 17
       note: i
-      end_date: '2052-12-07'
+      end_date: '2052-12-12'
       is_active: false
     fileParameters: []
     responses: []

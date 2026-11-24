@@ -14,6 +14,7 @@ Dibangun dengan Laravel 12, Sanctum, dan PostgreSQL. Klien web ada di repo `fina
 - Anggaran bulanan per kategori (`over` jika terpakai > batas, `warning` mulai 80%); anggaran induk menjumlah subkategorinya.
 - Laporan: tren bulanan, perbandingan kategori antar bulan, dan ringkasan per dompet pada rentang tanggal.
 - Transaksi berulang (harian/mingguan/bulanan): aturan membuat transaksi biasa, termasuk kemunculan yang terlewat dengan tanggal yang benar. Dipicu `php artisan recurring:generate` (terjadwal 00:05 WIB, perlu `schedule:run` di cron) dan otomatis saat login. Transaksi yang dihapus tidak dibuat ulang.
+- Target tabungan: progres dihitung dari saldo satu dompet (tidak disimpan), dengan persen, sisa, status (`in_progress`/`reached`/`overdue`), dan kebutuhan per bulan sampai tenggat. Satu dompet hanya untuk satu target aktif.
 - Ekspor transaksi ke CSV (UTF-8 dengan BOM, waktu WIB, maksimum 50.000 baris).
 
 ## Keputusan desain
@@ -68,4 +69,5 @@ Hasilnya ada di `public/docs/index.html` (buka lewat `http://localhost:8000/docs
 | Budgets | `GET /budgets?month=YYYY-MM`, `PUT /budgets` (upsert; 201 jika baru, 200 jika diperbarui), `DELETE /budgets/{id}` |
 | Reports | `GET /reports/monthly-trend?months=6\|12`, `GET /reports/category-comparison?months=3..12&type=expense\|income`, `GET /reports/wallets?from=&to=` (maks. 366 hari) |
 | Recurring | `GET\|POST /recurring-rules`, `PATCH\|DELETE /recurring-rules/{id}`, `POST /recurring-rules/run` (jalankan aturan yang jatuh tempo; mengembalikan `{created}`). `frequency` dan `start_date` tidak bisa diubah setelah dibuat. |
+| Goals | `GET\|POST /goals`, `PATCH\|DELETE /goals/{id}`. Daftar urut tenggat naik (tanpa tenggat di akhir). `current_amount` = saldo dompet; `wallet_status` = `ok\|archived\|deleted`. Tenggat tidak boleh sebelum hari ini (WIB), dan pada `PATCH` hanya diperiksa bila berubah. |
 | Export | `GET /transactions/export` (CSV; filter sama seperti daftar transaksi) |
