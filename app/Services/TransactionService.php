@@ -46,6 +46,9 @@ class TransactionService
         $this->assertNotTransfer($transaction);
         WalletGuard::assertUsable($transaction->wallet, 'wallet_id');
 
+        // Berkas struk dihapus permanen; barisnya sendiri hanya soft-delete.
+        app(ReceiptStorage::class)->delete($transaction);
+
         $transaction->delete();
     }
 

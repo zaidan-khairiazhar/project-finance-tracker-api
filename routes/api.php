@@ -13,6 +13,8 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\TransactionExportController;
 use App\Http\Controllers\RecurringRuleController;
 use App\Http\Controllers\GoalController;
+use App\Http\Controllers\ReceiptController;
+use App\Http\Controllers\ReceiptScanController;
 
 Route::get('/', function () {
     return response()->json(['message' => 'Finance API is running.']);
@@ -37,6 +39,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('categories', CategoryController::class)->except('show');
     Route::get('transactions/export', TransactionExportController::class);
     Route::apiResource('transactions', TransactionController::class);
+    Route::post('receipts/scan', ReceiptScanController::class)->middleware('throttle:receipt-scan');
+    Route::post('transactions/{transaction}/receipt', [ReceiptController::class, 'store'])->whereUuid('transaction');
+    Route::get('transactions/{transaction}/receipt', [ReceiptController::class, 'show'])->whereUuid('transaction');
+    Route::delete('transactions/{transaction}/receipt', [ReceiptController::class, 'destroy'])->whereUuid('transaction');
 
     Route::post('transfers', [TransferController::class, 'store']);
     Route::delete('transfers/{groupId}', [TransferController::class, 'destroy'])->whereUuid('groupId');

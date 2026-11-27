@@ -21,6 +21,7 @@ class TransactionResource extends JsonResource
             'note' => $this->note,
             'transfer_group_id' => $this->transfer_group_id,
             'recurring_rule_id' => $this->recurring_rule_id,
+            'has_receipt' => $this->receipt_path !== null,
         ];
     }
 }
